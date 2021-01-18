@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.content{
+			text-indent: 2em;
+		}
+		.title{
+			font-size: 17px;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/资讯" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">公告详情</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="title">{$detail.title}</div>
+				<div class="flexbox_nowrap flexbox_nowrap_between">
+					<div class="gray_color">来自{$detail.author}</div>
+					<div class="gray_color">{$detail.insert_time}</div>
+				</div>
+				<div class="content">
+					{$detail.content | raw}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

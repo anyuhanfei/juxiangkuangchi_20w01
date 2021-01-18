@@ -1,0 +1,110 @@
+.index_top{
+	background-color: #222842;
+	margin-bottom: 0.625rem;
+}
+.notice{
+	padding: 0.3125rem;
+}
+.gray_color{
+	width: 80%;
+}
+.swiper-pagination-bullet{
+	background-color: #6f7384;
+}
+.swiper-pagination-bullet-active{
+	background-color: #fff;
+}
+.index_top .swiper-pagination-bullet{
+	width: 20px;
+	height: 7px;
+	border-radius: 10px;
+}
+.activity_title div{
+	padding-left: 0.9375rem;
+	position: relative;
+}
+.activity_title div::before{
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 0.1875rem;
+	width: 2px;
+	height: 15px;
+	background-color: #2ae8ff;
+}
+.activity_center .public_bonus div{
+	font-weight: bold;
+}
+.activity_center .public_bonus p{
+	font-size: 10px;
+}
+.activity_center .public_bonus .a_btn{
+	width: 78px;
+	font-size: 12px;
+	border-radius: 50px;
+	height: 23px;
+	line-height: 23px;
+	margin: 0;
+	margin-bottom: 0.3125rem;
+}
+.activity_center .public_bonus{
+	width: 33.33%;
+	box-sizing: border-box;
+	padding: 0.3125rem;
+	margin-right: 0.625rem;
+	background-size: 100% 100%;
+}
+.activity_center .public_bonus:last-child{
+	margin: 0;
+}
+.activity_center .activity_bonus{
+	background-image: url(../img/组246@2x.png);
+}
+.activity_center .activity_cash{
+	background-image: url(../img/组25@2x.png);
+}
+.activity_center .activity_fil{
+	background-image: url(../img/组26@2x.png);
+}
+.ranking_list{
+	background-color: #7b95c7;
+}
+.cash_btn{
+	background-color: #e8a010;
+}
+.fil_btn{
+	background-color: #fa591d;
+}
+.coin_box{
+	margin-top: 0.625rem;
+	border-radius: 0.3125rem;
+}
+.coin_box .public_box_bg{
+	border-radius: 0;
+	margin-bottom: 0;
+}
+.coin_box .blue_color{
+	position: relative;
+	margin-left: 1.25rem;
+}
+.coin_box .blue_color::before{
+	content: '';
+	width: 20px;
+	height: 2px;
+	background-color:#2ae8ff;
+	position: absolute;
+	bottom: -10px;
+}
+.coin_box .mui-text-center{
+	height: 30px;
+	line-height: 30px;
+}
+.coin_box .mui-row{
+	padding: 0.625rem;
+}
+.coin_box .mui-row:nth-child(2n+1){
+	background-color: #222842;
+}
+.coin_box .mui-row:last-child{
+	margin-bottom: 0.625rem;
+}

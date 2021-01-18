@@ -1,0 +1,107 @@
+{extend name="base" /}
+
+{block name="custom_css"}
+{/block}
+
+{block name="content"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">算力管理</div>
+                        <div class="card-sub text-warning">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-inline" action="" method="post">
+                            <button type="button" class="btn btn-success btn-xs" id="add" style="float: left;">添加</button>
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">名称</th>
+                                    <th scope="col">单份存力</th>
+                                    <th scope="col">单份价格</th>
+                                    <th scope="col">合约周期</th>
+                                    <th scope="col">预计产出回报率</th>
+                                    <th scope="col">日产出(计算)</th>
+                                    <th scope="col">全周期收益(展示)</th>
+                                    <th scope="col">剩余算力</th>
+                                    <th scope="col">状态</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {volist name="list" id="vo"}
+                                <tr id="tr">
+                                    <td>{$vo.mill_id}</td>
+                                    <td>{$vo->名称}</td>
+                                    <td>{$vo->单份存力}TB</td>
+                                    <td>{$vo->单份价格}USDT</td>
+                                    <td>{$vo->合约周期}天</td>
+                                    <td>{$vo->预计产出回报率}%</td>
+                                    <td>{$vo->日产出}USDT</td>
+                                    <td>{$vo->全周期收益}USDT</td>
+                                    <td>{$vo->剩余算力}TB</td>
+                                    <td id="status{$vo.mill_id}">{$vo->status_text}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-xs" onclick="update('{$vo.mill_id}')">修改</button>
+                                        <button id="b{$vo.mill_id}0" class="btn btn-danger btn-xs" onclick="item_status('{$vo.mill_id}', '0')" {if condition="$vo.status == 0"}style="display:none;"{/if}>下架</button>
+                                        <button id="b{$vo.mill_id}1" class="btn btn-danger btn-xs" onclick="item_status('{$vo.mill_id}', '1')" {if condition="$vo.status == 1"}style="display:none;"{/if}>上架</button>
+                                    </td>
+                                </tr>
+                                {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="custom_js"}
+<script>
+    //添加
+    $("#add").click(function(){
+        location.href = "/admin/app/mill_add";
+    })
+
+    //修改
+    function update(id){
+        location.href = "/admin/app/mill_update?id=" + id;
+    }
+    //删除
+    function item_status(id, status){
+        layer.confirm('是否要进行此操作', {
+            btn: ['是','否']
+        }, function(){
+            $.ajax({
+                url: "/admin/app/mill_status",
+                type: "post",
+                data: {id: id, status: status},
+                success: function(data){
+                    data = JSON.parse(data);
+                    if(data.code == 3){
+                        custom_notify('danger', '算力状态修改', data.msg);
+                    }else if(data.code == 2){
+                        custom_notify('warning', '算力状态修改', data.msg);
+                    }else if(data.code == 1){
+                        $("#b" + id + "0").show();
+                        $("#b" + id + "1").show();
+                        $("#b" + id + status).hide();
+                        $("#status" + id).html(data.data)
+                        custom_notify('success', '算力状态修改', data.msg);
+                    }
+                }
+            })
+            layer.closeAll();
+        });
+    }
+</script>
+{/block}

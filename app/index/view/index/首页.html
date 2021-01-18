@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/swiper.css" />
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/index.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<h1 class="mui-title">炬象</h1>
+		<a href="/index/me/消息中心" class="mui-pull-right writer_color">
+			<img src="/static/index/img/消息@2x.png" class="notice_img">
+		</a>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="index_top ">
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							{volist name="banners" id="banner"}
+							{if condition="$banner.image != ''"}
+							<div class="swiper-slide ">
+								<img src="{$banner.image}" class="img_pull">
+							</div>
+							{/if}
+							{/volist}
+						</div>
+						<!-- Add Pagination -->
+						<div class="swiper-pagination"></div>
+					</div>
+					<div class="flexbox_nowrap notice">
+						<img src="/static/index/img/公告@2x.png" class="img_size">
+						<marquee id="pmd" class="gray_color" direction="left" scrolldelay="90" width="85%" vspace="1">{$notice}</marquee>
+						<a href="/index/资讯" class="blue_color">更多</a>
+					</div>
+				</div>
+				<div class="activity_center ">
+					<div class="public_box_bg">
+						<div class="activity_title flexbox_nowrap flexbox_nowrap_between">
+							<div>活动中心</div>
+							<a href="/index/活动" class="blue_color">查看全部 >></a>
+						</div>
+					</div>
+					<div class="flexbox_nowrap">
+						{volist name="active" id="vo"}
+						{if condition="$key == 0"}
+						<div class="activity_bonus public_bonus">
+						{elseif condition="$key == 1"}
+						<div class="activity_cash public_bonus">
+						{else /}
+						<div class="activity_fil public_bonus">
+						{/if}
+							<div class="black_color overflower_ellipsis_d">{$vo->标题}</div>
+							<p class="black_color">{$vo->副标题}</p>
+							{if condition="$key == 0"}
+							<a href="/index/活动详情?id={$vo->id}" class="a_btn ranking_list">立即前往</a>
+							{elseif condition="$key == 1"}
+							<a href="/index/活动详情?id={$vo->id}" class="a_btn cash_btn">立即前往</a>
+							{else /}
+							<a href="/index/活动详情?id={$vo->id}" class="a_btn fil_btn">立即前往</a>
+							{/if}
+						</div>
+						{/volist}
+					</div>
+				</div>
+				<div class="index_center">
+					<div class="swiper-container2">
+						<div class="swiper-wrapper">
+							{volist name="mills" id="vo"}
+							<div class="swiper-slide ">
+								<div class="being_sold">正在热卖</div>
+								<a href="/index/mill/矿机详情?id={$vo.mill_id}" class="location_jump">
+									<div class="flexbox_nowrap flexbox_nowrap_start">
+										<img src="/static/index/img/-s-图层5@2x.png">
+										<img src="/static/index/img/-s-图层8@2x.png">
+										<div>{$vo->名称}</div>
+									</div>
+									<div class="gray_color">IPFS全网算力领先矿池</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>单份存力</div>
+										<div class="blue_color">{$vo->单份存力}TB</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>单份价格</div>
+										<div> <span class="blue_color">{$vo->单份价格}</span>USDT</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>合约周期</div>
+										<div class="blue_color">{$vo->合约周期}天</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>预计产出回报率</div>
+										<div class="blue_color">{$vo->预计产出回报率}%</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>剩余算力</div>
+										<div class="blue_color">{$vo->剩余算力}T</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>收益</div>
+										<div>{$vo->全周期收益} USDT</div>
+									</div>
+								</a>
+							</div>
+							{/volist}
+						</div>
+						<!-- Add Pagination -->
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+				<div class="coin_box">
+					<div class="public_box_bg flexbox_nowrap flexbox_nowrap_start">
+						<div>交易所/币种</div>
+						<div class="blue_color">USDT</div>
+					</div>
+					<div class="mui-row">
+						<div class="mui-col-sm-1 mui-col-xs-1 mui-text-center ">
+							<img src="/static/index/img/-s-图层5@2x.png" class="img_pull">
+						</div>
+						<div class="mui-col-sm-3 mui-col-xs-3 mui-text-center">
+							<div>BTC</div>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
+							${$btc->last_number}
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
+							￥{$btc->last_number * $USDT2CNY}
+						</div>
+					</div>
+					<div class="mui-row">
+						<div class="mui-col-sm-1 mui-col-xs-1 mui-text-center ">
+							<img src="/static/index/img/-s-图层5@2x.png" class="img_pull">
+						</div>
+						<div class="mui-col-sm-3 mui-col-xs-3 mui-text-center">
+							<div>ETH</div>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
+							${$eth->last_number}
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
+							￥{$eth->last_number * $USDT2CNY}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="mui-bar mui-bar-tab nav_bg">
+	    <a href="/" target="_blank" class="mui-tab-item mui-active">
+			<span class="mui-icon iconfont icon_1"></span>
+	        <span class="mui-tab-label">首页</span>
+	    </a>
+	    <a href="/index/mill/单挖算力" target="_blank" class="mui-tab-item">
+	        <span class="mui-icon iconfont icon_2"></span>
+	        <span class="mui-tab-label">算力</span>
+	    </a>
+	    <a href="/index/mill/双挖算力" target="_blank" class="mui-tab-item">
+	        <span class="mui-icon iconfont icon_3"></span>
+	        <span class="mui-tab-label">双挖</span>
+	    </a>
+		<a href="/index/me" target="_blank" class="mui-tab-item">
+		    <span class="mui-icon iconfont icon_4"></span>
+		    <span class="mui-tab-label">我的</span>
+		</a>
+	</nav>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script src="/static/index/js/swiper.js"></script>
+	<script type="text/javascript">
+		// $('.location_jump').click(()=>{
+		// 	localStorage.setItem('jump','index.html')
+		// })
+		var swiper = new Swiper('.swiper-container', {
+			slidesPerView: 1,
+			spaceBetween: 0,
+			loop: true,
+			autoplay: {
+				delay: 2500,
+				disableOnInteraction: false,
+			},
+			noSwiping: true,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+			},
+		});
+		var swiper = new Swiper('.swiper-container2', {
+			slidesPerView: 1,
+			spaceBetween: 0,
+			loop: true,
+			noSwiping: true,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+			},
+		});
+	</script>
+</body>
+</html>

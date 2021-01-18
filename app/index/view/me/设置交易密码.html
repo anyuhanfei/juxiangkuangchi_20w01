@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.input_box{
+			width: 85%;
+			margin: 0 auto;
+		}
+		.input_box:last-child{
+			border: 1px solid #282e49;
+		}
+		.a_big_btn{
+			width: 85%;
+			margin-top: 5%;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me/设置" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">设置交易密码</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="logo_box">
+					<img src="/static/index/img/登录logo@2x.png" class="img_pull">
+				</div>
+				<div class="input_box flexbox_nowrap border_bot">
+					<img src="/static/index/img/密码1@2x.png" class="img_size">
+					<input type="password" id="password" placeholder="请设置交易密码(6位数字)">
+				</div>
+				<div class="input_box flexbox_nowrap border_bot">
+					<img src="/static/index/img/密码1@2x.png" class="img_size">
+					<input type="password" id="password_confirm" placeholder="请再次输入新密码">
+				</div>
+				<a href="javascript:;" class="a_big_btn a_btn submit_btn">确认设置</a>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop password_error_show">
+		<div class="message_reply">
+			<div class="message_reply_content">
+				<img src="/static/index/img/密码设置成功@2x.png" >
+				<h4 class="black_color mui-text-center">交易密码设置成功</h4>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn close_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/layer/layer.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		$('.submit_btn').click(()=>{
+			var password = $("#password").val()
+			var password_confirm = $("#password_confirm").val()
+			$.ajax({
+				url: "/index/me/设置交易密码提交",
+				type: "post",
+				data: {password: password, password_confirm: password_confirm},
+				success: function(data){
+					data = JSON.parse(data)
+					if(data.code == 1){
+						$('.password_error_show').show()
+					}else{
+						layer.msg(data.msg)
+					}
+				}
+			})
+		})
+		$('.close_btn').click(()=>{
+			location.href = "/index/me/设置"
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.border_bot{
+			border-bottom: 1px solid #282e49;
+			margin-bottom: 0.625rem;
+			padding-bottom: 0.625rem;
+		}
+		 .mui-popover {
+			height: 140px;
+		}
+		.mui-popover.mui-popover-action .mui-table-view{
+			color: #01acec;
+		}
+		.fixed_bottom{
+			position: absolute;
+			bottom: 15px;
+			z-index: 10;
+			width: 96%;
+			margin:0 ;
+		}
+		.mui-popover .mui-content{
+			background-color: #b9babd;
+		}
+		.mui-table-view-cell label{
+			display: block;
+			width: 100%;
+			position: relative;
+			z-index: 50;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">个人中心</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="public_box_bg">
+					<a href="#picture" class="border_bot flexbox_nowrap flexbox_nowrap_between">
+						<img {if condition="$user.via == ''"}src='/static/index/img/via.png'{else /}src='{$user.via}'{/if} id="img" class="head_img img1">
+						<span class="mui-icon mui-icon-forward"></span>
+					</a>
+					<a href="/index/me/修改昵称" class="flexbox_nowrap flexbox_nowrap_between">
+						<div>昵称</div>
+						<div>{$user.nickname}<span class="mui-icon mui-icon-forward"></span></div>
+					</a>
+				</div>
+				<div class="public_box_bg">
+					<a href="/index/me/修改登录密码" class="border_bot flexbox_nowrap flexbox_nowrap_between">
+						<div>修改登录密码</div>
+						<span class="mui-icon mui-icon-forward"></span>
+					</a>
+					<a href="###" class="flexbox_nowrap flexbox_nowrap_between">
+						<div>绑定手机号</div>
+						<div>{$user.phone}</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+		<div class="mui-content mui-scroll-wrapper">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label for="photo">
+						<input type="file" id="photo" class="" onchange="upload(this ,1)" accept="image/*"style="display: none;">相册
+					</label></li>
+			</ul>
+		</div>
+		<ul class="mui-table-view fixed_bottom">
+			<li class="mui-table-view-cell close">
+				<a href="#picture"><b>取消</b></a>
+			</li>
+		</ul>
+	</div>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/layer/layer.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		function upload(e, i) {
+			console.log(e.files[0],i)
+			mui('#picture').popover('toggle');//关闭弹出层
+			// var file = e.files[0]
+			if (e.files) {
+				var reader = new FileReader()
+				reader.readAsDataURL(e.files[0]);
+				reader.onload = function (e) {
+					var src = this.result
+					$('.img'+i+'').attr('src', src)
+				}
+			}
+			var index = layer.load(1, {
+				shade: [0.1,'#fff'] //0.1透明度的白色背景
+			});
+			setTimeout(() => {
+				layer.closeAll();
+				var fd = new FormData();
+				fd.append("photo", $('#photo')[0].files[0]);
+				$.ajax({
+					url: "/index/me/修改头像提交",
+					type: "post",
+					processData: false,
+					contentType: false,
+					data: fd,
+					success: function(data){
+						data = JSON.parse(data);
+						layer.msg(data.msg);
+					}
+				})
+			}, 2000);
+		}
+	</script>
+</body>
+</html>

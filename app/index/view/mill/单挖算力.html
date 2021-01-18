@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<script src="/static/index/js/mui.min.js"></script>
+	<link href="/static/index/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="/static/index/css/index.css"/> -->
+	<link rel="stylesheet" type="text/css" href="/static/index/css/hashrate.css" />
+	<script type="text/javascript" charset="utf-8">
+		mui.init();
+	</script>
+	<style type="text/css">
+
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<div class="getRecordTit mui-segmented-control">
+			<a href="#get1" class="mui-control-item mui-active">云算力交易</a>
+			<a href="#get2" class="mui-control-item">云算力租赁</a>
+		</div>
+		<a href="/index/mill/算力产出" class="mui-pull-right writer_color">
+			<img src="/static/index/img/圆角矩形565拷贝4@2x.png" class="notice_img">
+		</a>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="getRecordList mui-content-padded">
+				<div id="get1" class="mui-control-content mui-active">
+					<div>
+						{volist name="mills" id="vo"}
+						<div class="index_center">
+							{if condition="$vo.status == 1"}
+							<div class="being_sold">正在热卖</div>
+							{else /}
+							<div class="not_yet">暂未开启</div>
+							{/if}
+							<a href="/index/mill/矿机详情?id={$vo.mill_id}" class="location_jump">
+								<div class="flexbox_nowrap flexbox_nowrap_start">
+									<img src="/static/index/img/-s-图层5@2x.png">
+									<img src="/static/index/img/-s-图层8@2x.png">
+									<div>{$vo->名称}</div>
+								</div>
+								<div class="gray_color">PFS全网算力领先矿池</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>单份存力</div>
+									<div class="blue_color">{$vo->单份存力}TB</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>单份价格</div>
+									<div> <span class="blue_color">{$vo->单份价格}</span> USDT</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>合约周期</div>
+									<div class="blue_color">{$vo->合约周期}天</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>预计产出回报率</div>
+									<div class="blue_color">{$vo->预计产出回报率}%</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>剩余算力</div>
+									<div class="blue_color">{$vo->剩余算力}T</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>收益</div>
+									<div>{$vo->全周期收益} USDT</div>
+								</div>
+							</a>
+						</div>
+						{/volist}
+					</div>
+				</div>
+				<div id="get2" class="mui-control-content">
+					<div class="no_dispark">
+						<img src="/static/index/img/矢量智能对象@2x.png">
+						<div>暂未开放，敬请期待</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="mui-bar mui-bar-tab nav_bg">
+		<a href="/" target="_blank" class="mui-tab-item">
+			<span class="mui-icon iconfont icon_1"></span>
+			<span class="mui-tab-label">首页</span>
+		</a>
+		<a href="/index/mill/单挖算力" target="_blank" class="mui-tab-item mui-active">
+			<span class="mui-icon iconfont icon_2"></span>
+			<span class="mui-tab-label">算力</span>
+		</a>
+		<a href="/index/mill/双挖算力" target="_blank" class="mui-tab-item">
+			<span class="mui-icon iconfont icon_3"></span>
+			<span class="mui-tab-label">双挖</span>
+		</a>
+		<a href="/index/me" target="_blank" class="mui-tab-item">
+			<span class="mui-icon iconfont icon_4"></span>
+			<span class="mui-tab-label">我的</span>
+		</a>
+	</nav>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		// $('.location_jump').click(() => {
+		// 	localStorage.setItem('jump', 'hashrate.html')
+		// })
+	</script>
+</body>
+
+</html>

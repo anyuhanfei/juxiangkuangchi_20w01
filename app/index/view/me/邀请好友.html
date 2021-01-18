@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.img_style{margin: 0;}
+		.invite_code{
+			margin: 0.625rem 1.25rem;
+		}
+		.title{
+			text-align: center;
+			padding:0 0 0.625rem;
+			border-bottom: 1px solid #2f3858;
+			margin-bottom: 0.625rem;
+		}
+		.cut_off{
+			position: relative;
+		}
+		.cut_off::before{
+			content: '';
+			width: 3px;
+			height: 45px;
+			background-color: #fff;
+			position: absolute;
+			right: 0;
+			top: 0.625rem;
+		}
+		.invite_content p{
+			text-indent: 2em;
+		}
+		.fixed_bottom{
+			position: fixed;
+			bottom: 0;
+			z-index: 10;
+			width: 100%;
+			padding: 0.9375rem 0;
+			background-color: #1c233f;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">邀请好友</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<img src="{$image}" class="img_pull">
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between invite_code">
+						<div>
+							<h3>{$user.invite_code}</h3>
+							<div>我的邀请码</div>
+						</div>
+						<img src="{$user.invite_qrcode}" class="img_style">
+					</div>
+				</div>
+				<div class="public_box_bg">
+					<div class="title">累计邀请</div>
+					<div class="mui-row">
+						<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center cut_off">
+							<div>我的直推</div>
+							<div class="flexbox_nowrap flexbox_nowrap_center"> <h3 class="blue_color">{$user.usercount.down_team_number}</h3>人 </div>
+							<div>(累计业绩)</div>
+						</div>
+						<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+							<div>我的团队</div>
+							<div class="flexbox_nowrap flexbox_nowrap_center"> <h3 class="blue_color">{$user.usercount.team_number}</h3>人 </div>
+							<div>(累计业绩)</div>
+						</div>
+					</div>
+				</div>
+				<div class="invite_content">
+					<div>邀请规则：</div>
+					{$content | raw}
+				</div>
+				<input type="text" style="opacity: 0;" value="{$link}" id="taokouling" class="mui-text-center">
+			</div>
+		</div>
+	</div>
+	<div class="fixed_bottom">
+		<div class="mui-row">
+			<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+				<a href="{$user.invite_qrcode}" download="code" class="blue_color">保存图片</a>
+			</div>
+			<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+				<div class=""><a href="javascript:;" id="copyCode" class="copy_btn blue_color" data-clipboard-target="#taokouling" data-clipboard-action="copy">分享链接</a></div>
+			</div>
+		</div>
+	</div>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script src="/static/index/js/code.js"></script>
+	<script type="text/javascript">
+		var clipboard = new Clipboard('.copy_btn');
+		    clipboard.on('success', function(e){
+		        console.log(e);
+				mui.toast('复制成功');
+		        document.getElementById('taokouling').blur();
+		    });
+		    clipboard.on('error', function(e){
+				mui.toast('复制失败，请长按复制');
+		    });
+		
+	</script>
+</body>
+</html>

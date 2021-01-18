@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.mui-segmented-control .mui-control-item{
+			padding: 0.3125rem 0;
+		}
+		.mui-segmented-control .mui-control-item.mui-active::before{
+			width: 100%;left: 0;
+		}
+		.mui-segmented-control{
+			background-color: #171d33;
+		}
+		.img_style{margin-top: 0;}
+		a{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">全部资讯</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="getRecordTit mui-segmented-control">
+				<a href="#get1" class="mui-control-item mui-active">公告</a>
+				<a href="#get2" class="mui-control-item">新闻</a>
+			</div>
+			<div class="getRecordList mui-content-padded">
+				<div id="get1" class="mui-control-content mui-active">
+					{volist name="news" id="vo"}
+					{if condition="$vo.category_id == 1"}
+					<a href="/index/详情?id={$vo.article_id}" class="public_box_bg">
+						<div class="flexbox_nowrap">
+							<div>
+								<div>{$vo.title}</div>
+								<div class="overflower_ellipsis_m gray_color">{$vo.intro}</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div class="gray_color">来自{$vo.author}</div>
+									<div class="gray_color">{$vo.insert_time}</div>
+								</div>
+							</div>
+							<img src="{$vo.image}" class="img_style">
+						</div>
+					</a>
+					{/if}
+					{/volist}
+				</div>
+				<div id="get2" class="mui-control-content">
+					{volist name="news" id="vo"}
+					{if condition="$vo.category_id == 2"}
+					<a href="/index/详情?id={$vo.article_id}" class="public_box_bg">
+						<div class="flexbox_nowrap">
+							<div>
+								<div>{$vo.title}</div>
+								<div class="overflower_ellipsis_m gray_color">{$vo.intro}</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div class="gray_color">来自{$vo.author}</div>
+									<div class="gray_color">{$vo.insert_time}</div>
+								</div>
+							</div>
+							<img src="{$vo.image}" class="img_style">
+						</div>
+					</a>
+					{/if}
+					{/volist}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

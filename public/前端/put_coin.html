@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.number_box{
+			width: 100px;text-align: right;
+		}
+		.border_bot input{
+			padding-left: 0;
+		}
+		.change_coin{
+			display: none;
+		}
+		.change_coin .message_reply{
+			height: 250px;
+		}
+		.change_coin .message_reply .mui-text-right{
+			padding-right: 0.625rem;
+			font-size: 20px;
+			padding-top: 0.3125rem;
+		}
+		.change_coin .message_reply .title{
+			padding-top: 0;
+		}
+		.change_coin .border_bot{
+			border-color: #f7f7f7;
+			margin:0 0.625rem 0.625rem ;
+		}
+		.radio_box input[type=radio]+label{
+			border-color: #333;
+		}
+		.radio_box input[type=radio]:checked + label{
+			background-image: url(img/radio2.png);
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="my.html" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">提币</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>USDT</div>
+						<div class="coin_list"><span class="coin_active">选择币种</span> <span class="mui-icon mui-icon-forward"></span> </div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>当前币种可用余额</div>
+						<div class="blue_color">5000.00</div>
+					</div>
+				</div>
+				<div class="public_box_bg">
+					<div>提币地址：</div>
+					<div class="border_bot">
+						<input type="text" placeholder="请输入提币地址">
+					</div>
+					<div>地址备注：</div>
+					<div class="border_bot">
+						<input type="text" placeholder="请输入备注">
+					</div>
+				</div>
+				<div class="public_box_bg">
+					<div>数量：</div>
+					<div class="border_bot flexbox_nowrap flexbox_nowrap_between ">
+						<input type="text" name="coin" placeholder="单次最小提币数量为100.00">
+						<div class="number_box">USDT <span class="blue_color all_btn">全部</span>
+						</div>
+					</div>
+					<p>手续费：</p>
+					<div class="border_bot flexbox_nowrap flexbox_nowrap_between">
+						<div class="blue_color">2000</div>
+						<div>USDT</div>
+					</div>
+					<p>实际到账数量：</p>
+					<div class="border_bot flexbox_nowrap flexbox_nowrap_between">
+						<div class="blue_color">2000</div>
+						<div>USDT</div>
+					</div>
+				</div>
+				<a href="javascript:;" class="a_btn a_big_btn">确认</a>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop reply_show change_coin">
+		<div class="message_reply">
+			<div class="mui-text-right black_color close">x</div>
+			<div class="title mui-text-center black_color">币种选择</div>
+			<div class="message_reply_content">
+				<div class="border_bot flexbox_nowrap flexbox_nowrap_between">
+					<div class="black_color">USDT</div>
+					<div class="radio_box">
+						<input type="radio" value="USDT" name="coin_list">
+						<label id="one"></label>
+					</div>
+				</div>
+				<div class="border_bot flexbox_nowrap flexbox_nowrap_between">
+					<div class="black_color">FIL</div>
+					<div class="radio_box">
+						<input type="radio" value="FIL" name="coin_list">
+						<label id="one"></label>
+					</div>
+				</div>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn coin_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/public.js"></script>
+	<script type="text/javascript">
+		$('.all_btn').click(()=>{
+			$('input[name="coin"]').val(123)
+		})
+		$('.coin_active').click(()=>{
+			$('.change_coin').show()
+		})
+		$('.close').click(()=>{
+			$('.change_coin').hide()
+		})
+		$('.coin_btn').click(()=>{
+			let change_coin =$('input[name="coin_list"]:checked').val()
+			if(change_coin){
+				$('.coin_active').html(change_coin)
+				$('.change_coin').hide()
+			}else{
+				mui.toast('请选择币种')
+			}
+		})
+	</script>
+</body>
+</html>

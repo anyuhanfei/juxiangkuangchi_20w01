@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.title{
+			padding: 0.9375rem;
+			text-align: center;
+			border-bottom: 1px solid #252a3a;
+		}
+		p{
+			text-indent:2em;
+		}
+		.foot{
+			width: 40%;
+			margin-left: auto;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me/消息中心" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">消息详情</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="title">{$detail.title}</div>
+			<p class="public_box">{$detail.content}</p>
+			<div class="foot">
+				{if condition="$detail->is_全局 == 0"}
+				<div class="mui-text-center gray_color">来自客服</div>
+				{else /}
+				<div class="mui-text-center gray_color">来自系统</div>
+				{/if}
+				<div class="mui-text-center gray_color">{$detail.insert_time}</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

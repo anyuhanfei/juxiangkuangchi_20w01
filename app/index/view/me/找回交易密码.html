@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.input_box input{
+			width: 55%;
+			text-align: right;
+		}
+		#sendsms {
+			width: 70px;
+			text-align: center;
+			}
+		.img_box img{
+			width: 60%;
+			display: block;
+			margin: 0.9375rem auto;
+		}
+		.public_box_bg .a_big_btn{
+			margin: 5% 0.625rem;
+		}
+		.waring{
+			text-indent: 2em;
+		}
+		.submit_btn{
+			margin: 10% auto;
+		}
+		.password_error_show .message_reply_content{
+			padding: 0;
+			height: 240px;
+			background-image: url(/static/index/img/已提交审核中、@2x.png);
+			background-size: 100% 100%;
+			position: relative;
+		}
+		.password_error_show .black_color{
+			font-weight: bold;
+			font-size: 20px;
+			width: 100%;
+			position: absolute;
+			top: 70%;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me/设置" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">找回交易密码</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap border_bot input_box border_bot">
+						<div>手机验证码</div>
+						<input type="text" id="sms_code" placeholder="请输入验证码">
+						<a href="javascript:;" id="sendsms" class="blue_color">获取验证码</a>
+					</div>
+					<div class="img_box border_bot">
+						<label for="photo">
+							<input type="file" id="photo" class="" onchange="upload(this ,1)" accept="image/*"style="display: none;">
+							<img src="/static/index/img/手持身份证@2x.png" class="img1">
+						</label>
+						<div class="mui-text-center">请上传手持身份证原件正面和个人签字</div>
+					</div>
+					<div class="border_bot">
+						<div>1.身份证上所有清晰可见，照片需免冠，建议未化妆。手持证件人五官清晰，照片内容真实有效，不得做任何修改</div>
+						<div>2.个人手写的内容包含“人人矿场”、个人签名和“当前日期”，字迹工整，不得涂改。</div>
+						<div>仅支持JPG和PNG图片格式，图片大小小于2M。</div>
+						<p>(注:为保护用户隐私，本照片仅用于找回交易密码)</p>
+					</div>
+				</div>
+				<a href="javascript:;" class="a_big_btn a_btn submit_btn">提交</a>
+				<div class="blue_color">温馨提示：</div>
+				<div class="blue_color waring">找回密码申请提交后1-3个工作日将收到处理结果</div>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop password_error_show">
+		<div class="message_reply">
+			<div class="message_reply_content">
+				<div class="black_color mui-text-center">已提交，系统审核中</div>
+			</div>
+			<div>
+				<a href="javascript:;" class="a_big_btn a_btn clean_btn">我知道了</a>
+			</div>
+		</div>
+	</div>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/layer/layer.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		$('.clean_btn').click(()=>{
+			location.href = "/index/me/设置"
+		})
+		$('.submit_btn').click(()=>{
+			var fd = new FormData();
+			fd.append('sms_code', $("#sms_code").val());
+			fd.append("photo", $('#photo')[0].files[0]);
+			$.ajax({
+				url: "/index/me/找回交易密码提交",
+				type: "post",
+				processData: false,
+				contentType: false,
+				data: fd,
+				success: function(data){
+					data = JSON.parse(data);
+					if(data.code == 1){
+						$('.password_error_show').show()
+					}else{
+						layer.msg(data.msg);
+					}
+				}
+			})
+		})
+		function upload(e, i) {
+			console.log(e.files[0],i)
+			// var file = e.files[0]
+			if (e.files) {
+				var reader = new FileReader()
+				reader.readAsDataURL(e.files[0]);
+				reader.onload = function (e) {
+					var src = this.result
+					$('.img'+i+'').attr('src', src)
+				}
+			}
+		}
+		var state = true;
+		$('#sendsms').click(function () {
+			var that = this
+			if ( state && $(that).text() == '获取验证码') {
+				state = false;
+				second = 60;
+				var countDown = setInterval(function () {
+					second--
+					$(that).text(second)
+					if(second <= 0){
+						clearInterval(countDown)
+						$(that).text('获取验证码')
+						state = true;
+					}else {
+						$('#sendsms').text(second+'s')
+						state = false;
+					}
+				}, 1000)
+				var phone = "{$user.phone}"
+				$.ajax({
+					url: "/index/sms/" + phone + "/forget",
+					type: "post",
+					data: {phone: phone},
+					success: function(data){
+						data = JSON.parse(data);
+						mui.toast(data.msg);
+						if(data.code == 2){
+							clearInterval(countDown)
+							$(that).text('获取验证码')
+							state = true;
+						}else{
+							$("#sms_code").val(data.data)
+						}
+					}
+				})
+			}
+		})
+	</script>
+</body>
+</html>

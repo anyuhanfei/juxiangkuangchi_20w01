@@ -1,0 +1,38 @@
+.top{
+	background-color: #4d3da6;
+	padding: 8% 0 0;
+}
+.mui-row{
+	margin-top: 1.25rem;
+	padding: 1.25rem 0 15%;
+	background-color: rgba(0,0,0,0.2);
+}
+.mui-col-sm-6{
+	position: relative;
+}
+.move_top,.index_center{
+	position: relative;
+	top: -55px;
+}
+.mui-col-sm-6:first-child::after{
+	content: '';
+	position: absolute;
+	height: 30px;
+	width: 2px;
+	background-color: #fff;
+	right: 0;
+	top: 5px;
+}
+.mui-segmented-control{
+	width: 60%;
+	margin: 0 auto 1.25rem;
+	border-radius: 50px;
+	border: 1px solid #01acec;
+}
+.mui-segmented-control .mui-control-item.mui-active{
+	background-color: #01acec;
+	color: #fff;
+}
+.mui-segmented-control .mui-control-item.mui-active::before{
+	background-color: rgba(0,0,0,0);
+}

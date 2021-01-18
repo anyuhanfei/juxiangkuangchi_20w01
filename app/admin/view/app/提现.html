@@ -1,0 +1,149 @@
+{extend name="base" /}
+
+{block name="custom_css"}
+<link rel="stylesheet" href="/static/dcalendar.picker/dcalendar.picker.css">
+{/block}
+
+{block name="content"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">提现管理</div>
+                        <div class="card-sub text-warning">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-inline" role="form" action="" method="post">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="user_id" id="user_id" value="{$user_id}" placeholder="会员ID">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="user_identity" id="user_identity" value="{$user_identity}" placeholder="{$user_identity_text}">
+                            </div>
+                            <div class="form-group">
+                                <input id='mydatepicker1' type="text" class="form-control" name="start_time" placeholder="起始时间(包含所选日期)" value="" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <input id='mydatepicker2' type="text" class="form-control" name="end_time" placeholder="结束时间(不包含所选日期)" value="" autocomplete="off">
+                            </div>
+                            <button type="submit" class="btn btn-default" id="search_submit">搜索</button>&nbsp&nbsp
+                            <button type="button" class="btn btn-default" id="from_close">清空</button>
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">会员id</th>
+                                    <th scope="col">手机号</th>
+                                    <th scope="col">币种</th>
+                                    <th scope="col">金额(手续费)</th>
+                                    <th scope="col">提现金额</th>
+                                    <th scope="col">提现地址</th>
+                                    <th scope="col">备注</th>
+                                    <th scope="col">状态</th>
+                                    <th scope="col">时间</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {volist name="list" id="vo"}
+                                <tr id="tr">
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.user_id}</td>
+                                    <td>{$vo.user_identity}</td>
+                                    <td>{$vo.coin_type}</td>
+                                    <td>{$vo.number}({$vo.fee})</td>
+                                    <td>{$vo.number - $vo.fee}</td>
+                                    <td>{$vo.address}</td>
+                                    <td>{$vo.remark}</td>
+                                    <td id="status{$vo.id}">{$vo->status_text}</td>
+                                    <td>{$vo->insert_time}</td>
+                                    <td>
+                                        {if condition="$vo.status == 0"}
+                                        <button id="b1{$vo.id}" class="btn btn-warning btn-xs" onclick="item_status('{$vo.id}', '1')">通过</button>
+                                        <button id="b2{$vo.id}" class="btn btn-danger btn-xs" onclick="item_status('{$vo.id}', '2')">驳回</button>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                {/volist}
+                            </tbody>
+                        </table>
+                        {$list->render() | raw}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="custom_js"}
+<script type="text/javascript" src="/static/dcalendar.picker/dcalendar.picker.js"></script>
+<script type="text/javascript">
+    $('#mydatepicker1').dcalendarpicker({
+        format:'yyyy-mm-dd'
+    });
+    $('#mydatepicker2').dcalendarpicker({
+        format:'yyyy-mm-dd'
+    });
+
+    setTimeout(function(){
+        var start_time = "{$start_time}";
+        var end_time = "{$end_time}";
+        if(start_time != ''){
+            $("#mydatepicker1").val(start_time);
+        }
+        if(end_time != ''){
+            $("#mydatepicker2").val(end_time);
+        }
+    }, 200);
+
+    function item_status(id, status){
+        if(status == 1){
+            var content = "是否确认通过此申请";
+        }else{
+            var content = "是否确认驳回此申请";
+        }
+        layer.confirm(content, {
+            btn: ['是','否']
+        }, function(){
+            layer.closeAll();
+            $.ajax({
+                url: "/admin/app/提现审核",
+                type: "post",
+                data: {id: id, status: status},
+                success: function(data){
+                    data = JSON.parse(data);
+                    if(data.code == 3){
+                        custom_notify('danger', '提现审核', data.msg);
+                    }else if(data.code == 2){
+                        custom_notify('warning', '提现审核', data.msg);
+                    }else if(data.code == 1){
+                        $("#b1" + id).hide();
+                        $("#b2" + id).hide();
+                        if(status == 1){
+                            $("#status" + id).html('通过');
+                        }else{
+                            $("#status" + id).html('驳回');
+                        }
+                        custom_notify('success', '提现审核', data.msg);
+                    }
+                }
+            })
+        })
+    }
+
+    $("#from_close").click(function(){
+        $("#user_id").val('');
+        $("#user_identity").val('');
+        $("#is_all").val('-1');
+        $("#mydatepicker1").val('');
+        $("#mydatepicker2").val('');
+        $("#search_submit").click();
+    })
+
+</script>
+{/block}

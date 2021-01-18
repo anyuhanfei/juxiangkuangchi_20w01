@@ -1,0 +1,116 @@
+{extend name="base" /}
+
+{block name="custom_css"}
+<link rel="stylesheet" href="/static/markdown/markdown.css">
+<script type="text/javascript" src="/static/markdown/marked.min.js"></script>
+{/block}
+
+{block name="content"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">活动修改</div>
+                    </div>
+                    <div class="card-body" style="padding: 15px 200px 10px;">
+                        <div class="form-group">
+                            <label for="标题">活动标题*</label>
+                            <input type="text" class="form-control" id="标题" value="{$detail->标题}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">不能超过30个字符</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="副标题">活动副标题</label>
+                            <input type="text" class="form-control" id="副标题" placeholder="请输入活动副标题" value="{$detail->副标题}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">非必填, 不能超过30个字符</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="列表图">图片*</label>
+                            <input type="file" class="form-control-file" id="列表图">
+                            <small id="emailHelp" class="form-text text-muted text-danger">不选择图片则视为不修改, 尺寸为</small>
+                            {if condition="$detail->列表图 != ''"}
+                                <img id="image{$detail.id}" src="{$detail->列表图}" width="120px" height="40px" onclick="show_image('{$detail.id}')"/>
+                            {/if}
+                        </div>
+                        <div class="form-group">
+                            <label for="活动时间">活动时间*</label>
+                            <input type="text" class="form-control" id="活动时间" value="{$detail->活动时间}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">例如: 12.15~12.19</small>
+                        </div>
+                        <div class="form-group" id="html">
+                            <label for="内容">内容*</label>
+                            <textarea class="form-control" style="margin-top: 0px; margin-bottom: 0px;" name="内容" id="content_html">{$detail->内容}</textarea>
+                        </div>
+                        <div class="card-action" style="display: flex; justify-content: center;">
+                            <button class="btn btn-success" style="margin-right: 10px;" id="submit">提交</button>
+                            <button class="btn btn-danger" id="cancel">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="custom_js"}
+<script src="/static/ckeditor/ckeditor.js"></script>
+<script>
+ClassicEditor
+    .create(document.querySelector('#content_html'), {
+        ckfinder: {
+            uploadUrl: "/admin/cms/img"
+        }
+    })
+    .then(editor => {
+        window.editor = editor;
+    })
+    .catch(error => {
+
+    });
+
+//非法操作
+var has_data = "{$has_data}";
+if(has_data == "false"){
+    custom_notify('danger', '活动修改', '非法操作');
+    setTimeout(() => {
+        location.href = "/admin/app/活动";
+    }, 1000);
+}
+
+//取消
+$("#cancel").click(function(){
+    location.href = "/admin/app/活动";
+})
+
+//提交
+$("#submit").click(function(){
+    var fd = new FormData();
+    fd.append('标题', $("#标题").val());
+    fd.append('副标题', $("#副标题").val());
+    fd.append('活动时间', $("#活动时间").val());
+    fd.append('内容', editor.getData());
+    fd.append("列表图", $('#列表图')[0].files[0]);
+    fd.append("id", "{$detail->id}");
+    $.ajax({
+        url: "/admin/app/活动修改提交",
+        type: "post",
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(data){
+            data = JSON.parse(data);
+            if(data.code == 3){
+                custom_notify('danger', '活动修改', data.msg);
+            }else if(data.code == 2){
+                custom_notify('warning', '活动修改', data.msg);
+            }else if(data.code == 1){
+                custom_notify('success', '活动修改', data.msg);
+            }
+        }
+    })
+})
+</script>
+
+
+{/block}

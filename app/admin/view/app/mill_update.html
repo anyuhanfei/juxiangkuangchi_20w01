@@ -1,0 +1,111 @@
+{extend name="base" /}
+
+{block name="custom_css"}
+{/block}
+
+{block name="content"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">算力添加</div>
+                    </div>
+                    <div class="card-body" style="padding: 15px 200px 10px;">
+                        <div class="form-group">
+                            <label for="名称">算力名称*</label>
+                            <input type="text" class="form-control" id="名称" value="{$detail->名称}">
+                            <small id="emailHelp" class="form-text text-muted text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="单份存力">单份存力*</label>
+                            <input type="number" class="form-control" id="单份存力" value="{$detail->单份存力}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位TB</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="单份价格">单份价格*</label>
+                            <input type="number" class="form-control" id="单份价格" value="{$detail->单份价格}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="合约周期">合约周期*</label>
+                            <input type="number" class="form-control" id="合约周期" value="{$detail->合约周期}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位天</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="预计产出回报率">预计产出回报率*</label>
+                            <input type="number" class="form-control" id="预计产出回报率" value="{$detail->预计产出回报率}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位%</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="日产出">日产出(计算)*</label>
+                            <input type="number" class="form-control" id="日产出" value="{$detail->日产出}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="全周期收益">全周期收益(展示)*</label>
+                            <input type="number" class="form-control" id="全周期收益" value="{$detail->全周期收益}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="剩余算力">剩余算力*</label>
+                            <input type="number" class="form-control" id="剩余算力" value="{$detail->剩余算力}">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位TB</small>
+                        </div>
+                        <div class="card-action" style="display: flex; justify-content: center;">
+                            <button class="btn btn-success" style="margin-right: 10px;" id="submit">提交</button>
+                            <button class="btn btn-danger" id="cancel">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="custom_js"}
+<script>
+
+//取消
+$("#cancel").click(function(){
+    location.href = "/admin/app/mill";
+})
+
+//提交
+$("#submit").click(function(){
+    var fd = new FormData();
+    fd.append('id', "{$detail.mill_id}");
+    fd.append('名称', $("#名称").val());
+    fd.append('单份存力', $("#单份存力").val());
+    fd.append('单份价格', $("#单份价格").val());
+    fd.append('合约周期', $("#合约周期").val());
+    fd.append('预计产出回报率', $("#预计产出回报率").val());
+    fd.append('日产出', $("#日产出").val());
+    fd.append('全周期收益', $("#全周期收益").val());
+    fd.append('剩余算力', $("#剩余算力").val());
+    $.ajax({
+        url: "/admin/app/mill_update_submit",
+        type: "post",
+        processData: false,
+        contentType: false,
+        data: fd,
+        success: function(data){
+            data = JSON.parse(data);
+            if(data.code == 3){
+                custom_notify('danger', '算力修改', data.msg);
+            }else if(data.code == 2){
+                custom_notify('warning', '算力修改', data.msg);
+            }else if(data.code == 1){
+                setTimeout(() => {
+                    location.href = "/admin/app/mill";
+                }, 1500);
+                custom_notify('success', '算力修改', data.msg);
+            }
+        }
+    })
+})
+</script>
+
+
+{/block}

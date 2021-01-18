@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/login.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.logo_box{
+			width: 50%;
+		}
+		.select_input select{
+			width: 35px;
+			background-color: rgba(0,0,0,0);
+			margin: 0;padding: 0;
+			color: #999;
+		}
+		.select_input input{
+			width: 53%;
+		}
+		#sendsms {width: 70px;}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="javascript:;" class="mui-icon mui-icon-left-nav mui-pull-left writer_color mui-action-back"></a>
+		<h1 class="mui-title">注册</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="logo_box">
+				<img src="/static/index/img/注册logo@2x.png" class="img_pull">
+			</div>
+			<div class="public_box">
+				<div class="input_box select_input flexbox_nowrap flexbox_nowrap_start border_bot">
+					<img src="/static/index/img/手机@2x.png" class="img_size">
+					<input type="text" id="phone" placeholder="请输入手机号码">
+				</div>
+				<div class="input_box code_input flexbox_nowrap flexbox_nowrap_between border_bot">
+					<div class="flexbox_nowrap flexbox_nowrap_start">
+						<img src="/static/index/img/验证码@2x.png" class="img_size">
+						<input type="text" id="sms_code" placeholder="请输入验证码">
+					</div>
+					<a href="javascript:;" id="sendsms" class="blue_color">获取验证码</a>
+				</div>
+				<div class="input_box flexbox_nowrap flexbox_nowrap_start border_bot">
+					<img src="/static/index/img/密码1@2x.png" class="img_size">
+					<input type="password" id="password" placeholder="请设置6-12位密码">
+				</div>
+				<div class="input_box flexbox_nowrap flexbox_nowrap_start border_bot">
+					<img src="/static/index/img/密码2@2x.png" class="img_size">
+					<input type="password" id="password_confirm" placeholder="请再次输入密码">
+				</div>
+				<div class="input_box flexbox_nowrap flexbox_nowrap_start border_bot">
+					<img src="/static/index/img/邀请码@2x.png" class="img_size">
+					<input type="text" id="invite_code" placeholder="请输入邀请码" {if condition="$invite_code != ''"}value="{$invite_code}" readonly{/if}>
+				</div>
+				<a href="javascript:;" class="a_big_btn a_btn submit_btn">注册</a>
+				<div class="flexbox_nowrap read_box_flex flexbox_nowrap_start">
+					<div class="radio_box checkbox">
+						<input type="radio" value="yes" name="agree">
+						<label id="one"></label>
+					</div>
+					<span class="read_box flexbox_nowrap gray_color">我已阅读并同意<a href="javascript:;" class="blue_color deal reply">《炬象矿池平台服务协议》</a></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop reply_show">
+		<div class="message_reply">
+			<div class="title mui-text-center black_color">炬象矿池平台服务协议</div>
+			<div class="message_reply_content">
+				{$detail | raw}
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn reply_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop password_error_show">
+		<div class="message_reply">
+			<div class="message_reply_content">
+				<img src="/static/index/img/注册成功@2x.png" >
+				<h4 class="black_color mui-text-center">恭喜您，注册成功</h4>
+			</div>
+			<div class="">
+				<a href="/index/login/密码登录" class="a_big_btn a_btn">立即登录</a>
+			</div>
+		</div>
+	</div>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/layer/layer.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		$('.reply').click(function () {
+			$('.reply_show').show();
+		})
+		$('.reply_btn').click(function () {
+			$('.reply_show').hide();
+		})
+		// mui.toast('手机号码有误，请重新输入')验证码发送时
+		// mui.toast('验证码已发送')验证码发送时
+		// mui.toast('无效邀请码，请重新确认')邀请码输入错误时
+		var state = true;
+		$('#sendsms').click(function () {
+			var that = this
+			if ( state && $(that).text() == '获取验证码') {
+				state = false;
+				second = 60;
+				var countDown = setInterval(function () {
+					second--
+					$(that).text(second)
+					if(second <= 0){
+						clearInterval(countDown)
+						$(that).text('获取验证码')
+						state = true;
+					}else {
+						$('#sendsms').text(second+'s')
+						state = false;
+					}
+				}, 1000)
+				var phone = $("#phone").val();
+				$.ajax({
+					url: "/index/sms/" + phone + "/register",
+					type: "post",
+					data: {phone: phone},
+					success: function(data){
+						data = JSON.parse(data);
+						mui.toast(data.msg);
+						if(data.code == 2){
+							clearInterval(countDown)
+							$(that).text('获取验证码')
+							state = true;
+						}else{
+							$("#sms_code").val(data.data)
+						}
+					}
+				})
+			}
+		})
+
+		$(".submit_btn").click(function(){
+			if($('input[name="agree"]:checked').val() != 'yes'){
+				layer.msg('请同意《炬象矿池平台服务协议》')
+				return
+			}
+			var phone = $("#phone").val()
+			var sms_code = $("#sms_code").val()
+			var password = $("#password").val();
+			var password_confirm = $("#password_confirm").val()
+			var invite_code = $("#invite_code").val()
+			$.ajax({
+				url: "/index/login/注册提交",
+				type: "post",
+				data: {phone: phone, sms_code: sms_code, password: password, password_confirm: password_confirm, invite_code: invite_code},
+				success: function(data){
+					data = JSON.parse(data)
+					if(data.code == 1){
+						$(".password_error_show").show()
+					}else{
+						layer.msg(data.msg)
+					}
+				}
+			})
+		})
+	</script>
+</body>
+</html>

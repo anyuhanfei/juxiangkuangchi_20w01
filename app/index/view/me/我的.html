@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.head_img{
+			width: 75px;height: 75px;
+			border-radius: 50%;
+		}
+		.property .blue_color{
+			font-size: 24px;
+		}
+		.a_btn{
+			width: 75px;
+			height: 30px;
+			line-height: 30px;
+			border-radius: 50px;
+			margin-top: 1.25rem;
+		}
+		.withdraw_btn{
+			background-color: rgba(0,0,0,0);
+			border: 1px solid #3e94ff;
+			color: #3e94ff;
+		}
+		.recharge_btn{
+			background-color: #3E94FF;
+		}
+		.list_box .flexbox_nowrap{
+			padding-bottom: 0.3125rem;
+		}
+		.list_box .flexbox_nowrap:last-child{padding: 0;}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<h1 class="mui-title">我的</h1>
+		<!-- <a href="address_admin.html" class="mui-icon mui-icon-left-nav mui-pull-left white_color"></a> -->
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<a href="/index/me/个人中心" class="flexbox_nowrap flexbox_nowrap_between">
+					<div class="flexbox_nowrap">
+						<img {if condition="$user.via == ''"}src='/static/index/img/via.png'{else /}src='{$user.via}'{/if} class="head_img">
+						<div>
+							<div>{$user.nickname}</div>
+							<div>{$user.phone}</div>
+						</div>
+					</div>
+					<div class="mui-icon mui-icon-forward writer_color"></div>
+				</a>
+				<div class="property public_box_bg">
+					<p>账户总资产折合（USDT）</p>
+					<p> <span class="blue_color">{$zc}</span> ≈ {$zc * $USDT2CNY} CNY</p>
+					<div>昨日账户收益(估算)：<span class="orange_color">{$sy}</span> USDT </div>
+				</div>
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>可用余额 (USDT)</div>
+						<div class="dark_blue">{$user.userfund.USDT}</div>
+					</div>
+					<div class="flexbox_nowrap">
+						<a href="/index/me/提现" class="a_btn withdraw_btn">提币</a>
+						<a href="/index/me/充值" class="a_btn recharge_btn">充值</a>
+					</div>
+				</div>
+				<div class="public_box_bg list_box">
+					<a href="/index/me/资产" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/我的资产@2x.png" class="notice_img">
+							<div>我的资产</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+					<a href="/index/mill/算力产出" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/算力产出@2x.png" class="notice_img">
+							<div>算力产出</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+					<a href="/index/mill/我的算力" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/我的算力@2x.png" class="notice_img">
+							<div>我的算力</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+				</div>
+				<div class="public_box_bg list_box">
+					<a href="/index/me/设置" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/安全设置@2x.png" class="notice_img">
+							<div>安全设置</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+					<!-- <a href="javascript:;" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/提现账户管理@2x.png" class="notice_img">
+							<div>提现账户管理</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a> -->
+					<a href="/index/me/邀请好友" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/邀请好友@2x.png" class="notice_img">
+							<div>邀请好友</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+					<a href="/index/帮助" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/帮助@2x.png" class="notice_img">
+							<div>帮助</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+					<a href="/index/关于我们" class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap">
+							<img src="/static/index/img/关于我们@2x.png" class="notice_img">
+							<div>关于我们</div>
+						</div>
+						<div class="mui-icon mui-icon-forward"></div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="mui-bar mui-bar-tab nav_bg">
+	    <a href="/" target="_blank" class="mui-tab-item">
+			<span class="mui-icon iconfont icon_1"></span>
+	        <span class="mui-tab-label">首页</span>
+	    </a>
+	    <a href="/index/mill/单挖算力" target="_blank" class="mui-tab-item">
+	        <span class="mui-icon iconfont icon_2"></span>
+	        <span class="mui-tab-label">算力</span>
+	    </a>
+	    <a href="/index/mill/双挖算力" target="_blank" class="mui-tab-item">
+	        <span class="mui-icon iconfont icon_3"></span>
+	        <span class="mui-tab-label">双挖</span>
+	    </a>
+		<a href="/index/me" target="_blank" class="mui-tab-item mui-active">
+		    <span class="mui-icon iconfont icon_4"></span>
+		    <span class="mui-tab-label">我的</span>
+		</a>
+	</nav>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/public.css"/>
+	<link rel="stylesheet" type="text/css" href="css/pay_info.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="mill_info.html" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">支付详情</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>用户名</div>
+						<div>12345678901</div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>名称</div>
+						<div>FIL第一期算力</div>
+					</div>
+				</div>
+			</div>
+			<div class="public_box">
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>算力金额</div>
+						<div> <span class="blue_color">250.00</span> USDT </div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>购买份数</div>
+						<div class="flexbox_nowrap number_box border_none">
+							<img src="img/-@2x.png" class="img_size" onclick="minus()">
+							<input type="number" name="buy_number" value="1">
+							<img src="img/+@2x.png" class="img_size" onclick="add()">
+						</div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>到手存力</div>
+						<div class="blue_color">1TB</div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>合约到期</div>
+						<div>开挖日+365天</div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div>赠送算力</div>
+						<div>无</div>
+					</div>
+				</div>
+				<p class="gray_color">请选择支付方式</p>
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between">
+						<div class="flexbox_nowrap border_none">
+							<img src="img/-s-图层5@2x.png" class="head_img">
+							<div>USDT</div>
+							<div>可用：1000.00</div>
+						</div>
+						<div class="radio_box">
+							<input type="radio" value="USDT" name="coin">
+							<label id="one"></label>
+						</div>
+					</div>
+				</div>
+				<div class="flexbox_nowrap read_box_flex flexbox_nowrap_start">
+					<div class="radio_box checkbox">
+						<input type="radio" value="yes" name="agree">
+						<label id="one"></label>
+					</div>
+					<span class="read_box flexbox_nowrap">我已阅读并同意<a href="javascript:;" class="blue_color deal reply">《IPFS云算力服务销售及托管协议》</a></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop reply_show">
+		<div class="message_reply">
+			<div class="title mui-text-center black_color">炬象矿池平台服务协议</div>
+			<div class="message_reply_content">
+				<p>留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容</p>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn reply_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop pay_password_show">
+		<div class="message_reply">
+			<div class="title mui-text-center black_color">请输入交易密码</div>
+			<div class="message_reply_content">
+				<table id="number_input" border="0" cellspacing="0" cellpadding="0">
+				    <tbody>
+				        <tr>
+				            <td class="input-item"></td>
+				            <td class="input-item"></td>
+				            <td class="input-item"></td>
+				            <td class="input-item"></td>
+				            <td class="input-item"></td>
+				            <td class="input-item"></td>
+				        </tr>
+				    </tbody>
+				</table>
+				<table id="keyboard" border="0" cellspacing="0" cellpadding="0">
+				    <tbody>
+				        <tr>
+				            <td class="keyboard-number">1</td>
+				            <td class="keyboard-number">2</td>
+				            <td class="keyboard-number">3</td>
+				        </tr>
+				        <tr>
+				            <td class="keyboard-number">4</td>
+				            <td class="keyboard-number">5</td>
+				            <td class="keyboard-number">6</td>
+				        </tr>
+				        <tr>
+				            <td class="keyboard-number">7</td>
+				            <td class="keyboard-number">8</td>
+				            <td class="keyboard-number">9</td>
+				        </tr>
+				        <tr>
+				            <td class="keboard-action" data-action="reset">取消支付</td>
+				            <td class="keyboard-number">0</td>
+				            <td class="keboard-action" data-action="cancel">回退</td>
+				        </tr>
+				    </tbody>
+				</table>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn pay_btn a_btn reply_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop password_error_show">
+		<div class="message_reply">
+			<div class="message_reply_content">
+				<img src="img/密码错误@2x.png" >
+				<h4 class="black_color mui-text-center">密码错误</h4>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn clean_btn">重新输入</a>
+				<a href="retrieve_pay_password.html" class="a_big_btn a_btn empty_btn">找回交易密码</a>
+			</div>
+		</div>
+	</div>
+	<div class="footer flexbox_nowrap">
+		<div class="total_number">总计金额： <span class="blue_color">250.00</span>USDT </div>
+		<div class="now_pay">立即支付</div>
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/public.js"></script>
+	<script type="text/javascript">
+		function minus(){//减法
+			let aa=Number($('input[name="buy_number"]').val());
+			if(aa>0){
+				$('input[name="buy_number"]').val(--aa)
+			}
+		}
+		function add(){//加法
+			let aa=Number($('input[name="buy_number"]').val());
+			$('input[name="buy_number"]').val(++aa)
+		}
+		$('.reply').click(function () {
+			$('.reply_show').show();
+		})
+		$('.reply_btn').click(function () {
+			$('.reply_show').hide();
+		})
+		$('.now_pay').click(()=>{
+			console.log($('input[name="agree"]:checked').val())
+			if($('input[name="agree"]:checked').val()=='yes'){
+				$('.pay_password_show').show()
+			}else{
+				mui.toast('请同意协议');
+			}
+		})
+
+		mui.ready(function() {
+		    // 数字索引
+		    var activeIndex = 0;
+		    // 密码结果
+		    var resultValue = "";
+		    // 所有输入框
+		    var inputList = mui(".input-item");
+		    // 所有数字键
+		    var numberList = mui(".keyboard-number");
+		    // 数字键盘点击事件
+		    mui("#keyboard").on("tap", ".keyboard-number", function() {
+		        if(activeIndex == 6) {
+		            return;
+		        }
+		        var num = this.innerText;
+		        addNumber(num);
+		    });
+		    mui("#keyboard").on("tap", ".keboard-action", function() {
+		        var value = this.getAttribute("data-action");
+		        switch(value) {
+		            case "cancel":
+		                if(activeIndex == 0) {
+		                    return;
+		                }
+		                cancelNumber();
+		                break;
+		            case "reset":
+		                $('.pay_password_show').hide()
+		                break;
+		            default:
+		                break;
+		        }
+		    });
+		    // 添加数字
+		    function addNumber(num) {
+		        inputList[activeIndex].innerText = "●";
+		        resultValue += num;
+		        activeIndex++;
+		        // 检测密码长度
+		        // if(activeIndex == 6) {
+		        //     // 假定123456是正确密码
+		        //     if(resultValue != "123456") {
+				// 		wrongPassword();
+				// 		//密码错误时的操作
+		        //     }else{
+				// 		//成功的操作
+				// 		$('.pay_password_show').hide()
+				// 	}
+		        // }
+		    }
+			$('.pay_btn').click(()=>{//输入密码后点击确定时的操作
+
+
+				// 假定123456是正确密码
+				if(resultValue != "123456") {
+					wrongPassword();
+					//密码错误时的操作
+				}else{
+					//成功的操作
+					$('.pay_password_show').hide()
+				}
+			})
+		    // 撤销数字
+		    function cancelNumber() {
+		        activeIndex--;
+		        inputList[activeIndex].innerText = "";
+		        resultValue = resultValue.substring(0, resultValue.length - 1);
+		    }
+		    // 密码框置空
+		    function resetInput() {
+		        activeIndex = 0;
+		        resultValue = "";
+		        mui(".input-item").each(function(index, element) {
+		            element.innerText = "";
+		        });
+		    }
+		    // 密码错误
+		    function wrongPassword() {
+				$('.password_error_show').show()
+		    }
+			$('.clean_btn').click(()=>{
+				resetInput();
+				$('.password_error_show').hide()
+			})
+		});
+		
+	</script>
+</body>
+</html>

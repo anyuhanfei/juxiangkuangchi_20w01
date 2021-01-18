@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<link rel="stylesheet" type="text/css" href="css/my_hashrate.css"/>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="my.html" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">我的算力</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="top">
+				<div class="mui-text-center">累计收益</div>
+				<div class="flexbox_nowrap flexbox_nowrap_center">
+					<h3>10000.00 </h3>
+					<div> FIL</div>
+				</div>
+				<div class="mui-row">
+					<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+						<div>有效算领</div>
+						<div class="blue_color">100T/天</div>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+						<div>历史最高算龄</div>
+						<div class="blue_color">100T/天</div>
+					</div>
+				</div>
+			</div>
+			<div class="public_box">
+				<div class="public_box_bg move_top">
+					<div class="getRecordTit mui-segmented-control">
+						<a href="#get1" class="mui-control-item mui-active">单挖算力</a>
+						<a href="#get2" class="mui-control-item">双挖算力</a>
+					</div>
+					<div class="getRecordList mui-content-padded">
+						<div id="get1" class="mui-control-content mui-active">
+							<div class="border_bot flexbox_nowrap flexbox_nowrap_between">
+								<div>我的总算力</div>
+								<div class="blue_color">100T</div>
+							</div>
+						</div>
+						<div id="get2" class="mui-control-content">
+							
+						</div>
+					</div>
+				</div>
+				<div class="index_center">
+					<div class="being_sold">正在热卖</div>
+					<a href="mill_info.html" class="location_jump">
+						<div class="flexbox_nowrap flexbox_nowrap_start">
+							<img src="img/-s-图层5@2x.png">
+							<img src="img/-s-图层8@2x.png">
+							<div>FIL第一期算力</div>
+						</div>
+						<div class="gray_color">PFS全网算力领先矿池</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>单份存力</div>
+							<div class="blue_color">1.00TB</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>单份价格</div>
+							<div> <span class="blue_color">1750 / 250 </span>USDT </div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>合约周期</div>
+							<div class="blue_color">360天</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>预计产出回报率</div>
+							<div class="blue_color">300%</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>剩余算力</div>
+							<div class="blue_color">1000T</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>收益</div>
+							<div>日预产出*FIL价格*365天-矿池费用</div>
+						</div>
+					</a>
+				</div>
+				<div class="index_center">
+					<div class="being_sold">正在热卖</div>
+					<a href="mill_info.html" class="location_jump">
+						<div class="flexbox_nowrap flexbox_nowrap_start">
+							<img src="img/-s-图层5@2x.png">
+							<img src="img/-s-图层8@2x.png">
+							<div>FIL第一期算力</div>
+						</div>
+						<div class="gray_color">PFS全网算力领先矿池</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>单份存力</div>
+							<div class="blue_color">1.00TB</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>单份价格</div>
+							<div> <span class="blue_color">1750 / 250 </span>USDT </div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>合约周期</div>
+							<div class="blue_color">360天</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>预计产出回报率</div>
+							<div class="blue_color">300%</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>剩余算力</div>
+							<div class="blue_color">1000T</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>收益</div>
+							<div>日预产出*FIL价格*365天-矿池费用</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/public.js"></script>
+	<script type="text/javascript">
+		$('.location_jump').click(()=>{
+			localStorage.setItem('jump','my_hashrate.html')
+		})
+	</script>
+</body>
+</html>

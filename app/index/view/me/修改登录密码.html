@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.public_box_bg input{
+			border-bottom: 1px solid #232a45;
+		}
+		.a_big_btn{
+			margin-top: 10%;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me/个人中心" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">修改登录密码</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="public_box">
+				<div class="public_box_bg">
+					<input type="password" id="old_password" placeholder="请输入旧密码">
+					<input type="password" id="password" placeholder="请输入新密码">
+					<input type="password" id="password_confirm" placeholder="再次输入新密码">
+				</div>
+				<a href="javascript:;" class="a_btn a_big_btn">完成</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/layer/layer.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		$(".a_big_btn").click(function(){
+			var old_password = $("#old_password").val();
+			var password = $("#password").val();
+			var password_confirm = $("#password_confirm").val();
+			$.ajax({
+				url: "/index/me/修改登录密码提交",
+				type: "post",
+				data: {old_password: old_password, password: password, password_confirm: password_confirm},
+				success: function(data){
+					data = JSON.parse(data)
+					layer.msg(data.msg)
+					if(data.code == 1){
+						setTimeout(() => {
+							location.href = "/index/me/个人中心"
+						}, 1500);
+					}
+				}
+			})
+		})
+	</script>
+</body>
+</html>

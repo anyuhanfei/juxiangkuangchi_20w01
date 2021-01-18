@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.mui-segmented-control .mui-control-item{
+			padding: 0.3125rem 0;
+		}
+		.mui-segmented-control .mui-control-item.mui-active::before{
+			width: 100%;left: 0;
+		}
+		.get_center{
+			width: 60%;
+			margin: 20% auto;
+		}
+		.get_center .gray_color{
+			letter-spacing: 10px;
+			font-size: 18px;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="javascript:;" class="mui-icon mui-icon-left-nav mui-pull-left writer_color mui-action-back"></a>
+		<h1 class="mui-title">算力产出</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="getRecordTit mui-segmented-control">
+				<a href="#get1" class="mui-control-item mui-active">单挖收益</a>
+				<a href="#get2" class="mui-control-item">双挖收益</a>
+			</div>
+			<div class="getRecordList mui-content-padded">
+				<div id="get1" class="mui-control-content mui-active">
+					{volist name="mymills" id="vo"}
+					<div class="public_box_bg">
+						<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+							<div class="flexbox_nowrap">
+								<img src="/static/index/img/-s-图层5@2x.png" class="notice_img">
+								<div class="blue_color">{$vo->mill->名称}</div>
+							</div>
+							<div class="gray_color">{$vo->insert_time}</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<p>总算力</p>
+							<p class="blue_color">{$vo->总算力}T</p>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<p>总产出</p>
+							<p class="blue_color">{$vo->mill->全周期收益} USDT</p>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>估值</div>
+							<div class="blue_color">{$vo->mill->全周期收益 * $USDT2FIL} FIL</div>
+						</div>
+					</div>
+					{/volist}
+				</div>
+				<div id="get2" class="mui-control-content">
+					<div class="get_center">
+						<img src="/static/index/img/暂无记录@2x.png" class="img_pull">
+						<div class="mui-text-center gray_color">暂无记录...</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>

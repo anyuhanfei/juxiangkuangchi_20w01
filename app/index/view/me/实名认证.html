@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="/static/index/js/mui.min.js"></script>
+    <link href="/static/index/css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="/static/index/css/public.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		.authentication .border_bot div{
+			width: 100px;
+		}
+		.authentication .img_box{
+			padding-top: 0.625rem;
+		}
+		.authentication .img_box img{
+			display: block;
+			width: 180px;
+			margin: 0.625rem auto;
+		}
+		.authentication .a_big_btn{margin-top: 5%;}
+		.authentication_over{
+			display: none;
+		}
+		.authentication_over_top{
+			width: 60%;
+			margin: 0 auto;
+			padding: 10% 0 5%;
+		}
+		.authentication_over_top img{
+			width: 150px;margin: 0 auto;
+			display: block;
+		}
+		.authentication_over_top h4{
+			text-align: center;
+			color: #26bdd4;
+			letter-spacing: 4px;
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav head_bg">
+		<a href="/index/me/设置" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">实名认证</h1>
+	</header>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			{if condition="$user->is_实名 == 0 && $user.userdata.id_card_username == ''"}
+			<!-- 认证中 -->
+			<div class="public_box authentication">
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>真实姓名</div>
+						<input type="text" id="id_card_username" placeholder="请输入真实姓名">
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>身份证号码</div>
+						<input type="text" id="id_card_code" placeholder="请输入身份证号码">
+					</div>
+					<!-- <div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>手机号码</div>
+						<input type="text" id="phone" placeholder="请输入手机号码">
+					</div> -->
+				</div>
+				<div class="img_box">
+					<label for="photo">
+						<input type="file" id="photo" class="" onchange="upload(this ,1)" accept="image/*"style="display: none;">
+						<img src="/static/index/img/正面身份证@2x.png" class="img1">
+					</label>
+					<div class="mui-text-center">请上传身份证正面</div>
+				</div>
+				<div class="img_box">
+					<label for="photo2">
+						<input type="file" id="photo2" class="" onchange="upload(this ,2)" accept="image/*"style="display: none;">
+						<img src="/static/index/img/反面身份证@2x.png"  class="img2">
+					</label>
+					<div class="mui-text-center">请上传身份证反面</div>
+				</div>
+				<a href="javascript:;" class="a_big_btn a_btn submit_btn">提交</a>
+			</div>
+			{else /}
+			<!-- 认证成功 -->
+			<div class="public_box ">
+				<div class="authentication_over_top">
+					<img src="/static/index/img/已认证@2x.png">
+					<h4>{if condition="$user->is_实名 == 1"}您已通过实名认证{else /}正在审核中{/if}</h4>
+				</div>
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>真实姓名</div>
+						<div>{$user.userdata.id_card_username}</div>
+					</div>
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>身份证号码</div>
+						<div>{$user.userdata.id_card_code}</div>
+					</div>
+				</div>
+				<div class="public_box_bg">
+					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
+						<div>证件审核</div>
+						<div class="blue_color">{if condition="$user->is_实名 == 1"}已通过{else /}正在审核中{/if}</div>
+					</div>
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+	<div class="mui-backdrop password_error_show">
+		<div class="message_reply">
+			<div class="message_reply_content">
+				<img src="/static/index/img/认证成功@2x.png" >
+				<h4 class="black_color mui-text-center">已申请认证, 请等待审核</h4>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn close_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<script src="/static/index/js/jquery.min.js"></script>
+	<script src="/static/layer/layer.js"></script>
+	<script src="/static/index/js/public.js"></script>
+	<script type="text/javascript">
+		$('.submit_btn').click(()=>{
+			var fd = new FormData();
+			fd.append('id_card_username', $("#id_card_username").val());
+			fd.append('id_card_code', $("#id_card_code").val());
+			fd.append("photo", $('#photo')[0].files[0]);
+			fd.append("photo2", $('#photo2')[0].files[0]);
+			$.ajax({
+				url: "/index/me/实名认证提交",
+				type: "post",
+				processData: false,
+				contentType: false,
+				data: fd,
+				success: function(data){
+					data = JSON.parse(data);
+					if(data.code == 1){
+						$('.password_error_show').show()
+					}else{
+						layer.msg(data.msg);
+					}
+				}
+			})
+		})
+		$('.close_btn').click(()=>{
+			location.href = "/index/me/实名认证"
+		})
+		function upload(e, i) {
+			console.log(e.files[0],i)
+			// var file = e.files[0]
+			if (e.files) {
+				var reader = new FileReader()
+				reader.readAsDataURL(e.files[0]);
+				reader.onload = function (e) {
+					var src = this.result
+					$('.img'+i+'').attr('src', src)
+				}
+			}
+		}
+
+
+	</script>
+</body>
+</html>

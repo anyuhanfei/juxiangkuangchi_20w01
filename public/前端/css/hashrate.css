@@ -1,0 +1,17 @@
+.mui-bar .mui-segmented-control{
+	width: 50%;
+	margin: 0 auto;
+}
+.mui-segmented-control .mui-control-item{
+	font-style: italic;
+}
+.mui-pull-right{
+	position: absolute;
+	top: 0;right: 0.625rem;
+}
+.no_dispark{
+	width: 50%;
+	margin: 20% auto 0;
+}
+.no_dispark img{width: 100%;}
+.no_dispark div{letter-spacing:6px;}

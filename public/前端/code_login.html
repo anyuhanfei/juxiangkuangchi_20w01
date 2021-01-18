@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/public.css"/>
+	<link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div class="mui-content mui-scroll-wrapper content_color">
+		<div class="mui-scroll">
+			<div class="logo_box">
+				<img src="img/登录logo@2x.png" class="img_pull">
+			</div>
+			<div class="public_box">
+				<div class="input_box flexbox_nowrap border_bot">
+					<img src="img/账号@2x.png" class="img_size">
+					<input type="text" placeholder="请输入注册时的手机号">
+				</div>
+				<div class="input_box code_input flexbox_nowrap border_bot">
+					<img src="img/验证码@2x.png" class="img_size">
+					<input type="text" placeholder="请输入验证码">
+					<a href="javascript:;" id="sendsms" class="blue_color">获取验证码</a>
+				</div>
+				<div class="flexbox_nowrap input_box flexbox_nowrap_between jump_other">
+					<a href="register.html" class="blue_color">新用户注册</a>
+				</div>
+				<a href="index.html" class="a_big_btn a_btn submit_btn">登录</a>
+				<a href="login.html" class="a_big_btn a_btn empty_btn">密码登录</a>
+				<div class="flexbox_nowrap read_box_flex flexbox_nowrap_start">
+					<div class="radio_box checkbox">
+						<input type="radio" value="yes" name="agree">
+						<label id="one"></label>
+					</div>
+					<span class="read_box flexbox_nowrap gray_color">我已阅读并同意<a href="javascript:;" class="blue_color deal reply">《炬象矿池平台服务协议》</a></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mui-backdrop reply_show">
+		<div class="message_reply">
+			<div class="title mui-text-center black_color">炬象矿池平台服务协议</div>
+			<div class="message_reply_content">
+				<p>留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容留言内容</p>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn reply_btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/public.js"></script>
+	<script type="text/javascript">
+		$('.reply').click(function () {
+			$('.reply_show').show();
+		})
+		$('.reply_btn').click(function () {
+			$('.reply_show').hide();
+		})
+		// mui.toast('验证码有误，请重新输入')验证码错误时，显示的弹框
+		$('.submit_btn').click(()=>{
+			
+		})
+		var state = true;
+		$('#sendsms').click(function () {
+			var that = this
+			if ( state && $(that).text() == '获取验证码') {
+				state = false;
+				second = 60;
+				var countDown = setInterval(function () {
+					second--
+					$(that).text(second)
+					if(second <= 0){
+						clearInterval(countDown)
+						$(that).text('获取验证码')
+						state = true;
+					}else {
+						$('#sendsms').text(second+'s')
+						state = false;
+					}
+				}, 1000)
+			}
+		})
+	</script>
+</body>
+</html>

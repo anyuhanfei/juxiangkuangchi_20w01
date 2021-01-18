@@ -1,0 +1,48 @@
+.head_bg{
+	background-color: #1c233b00 !important;
+}
+.input_box{
+	width: 85%;
+	margin: 0 auto;
+}
+.input_box:last-child{
+	border: 1px solid #282e49;
+}
+.a_big_btn{
+	width: 85%;
+	margin-top: 5%;
+}
+.empty_btn{
+	color: #fff;
+}
+.checkbox  input[type=radio]+label{
+	border-color: #089fb9;
+	background-color: rgba(0,0,0,0);
+}
+.checkbox input[type=radio]:checked + label{
+	border: none;
+	background-image: url(../img/同意@2x.png);
+}
+.read_box_flex{
+	padding-left: 1.25rem;
+}
+.jump_other{
+	margin-top: 1.25rem;
+}
+.reply_show .a_big_btn{
+	margin-top: 0;
+}
+.code_input input{
+	width: 53%;
+}
+#sendsms{
+	width: 65px;
+	text-align: center;
+}
+.img_size{
+	margin: 5px 15px;
+}
+
+.message_reply .empty_btn{
+	color: #01acec;
+}
