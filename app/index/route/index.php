@@ -70,3 +70,4 @@ Route::rule('/me/找回交易密码提交', 'index/me/找回交易密码提交')
 Route::rule('/me/资产', 'index/mefund/资产');
 Route::rule('/me/充值', 'index/mefund/充值');
 Route::rule('/me/提现', 'index/mefund/提现');
+Route::rule('/me/提现提交', 'index/mefund/提现提交');
