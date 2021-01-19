@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">单挖算力管理</div>
+                        <div class="card-title">租赁单挖算力管理</div>
                         <div class="card-sub text-warning">
 
                         </div>
@@ -27,9 +27,10 @@
                                     <th scope="col">单份存力</th>
                                     <th scope="col">单份价格</th>
                                     <th scope="col">合约周期</th>
-                                    <th scope="col">预计产出回报率</th>
-                                    <th scope="col">日产出(计算)</th>
-                                    <th scope="col">全周期收益(展示)</th>
+                                    <th scope="col">日产出展示</th>
+                                    <th scope="col">日产出计算</th>
+                                    <th scope="col">开挖时间</th>
+                                    <th scope="col">分币比例</th>
                                     <th scope="col">剩余算力</th>
                                     <th scope="col">状态</th>
                                     <th scope="col"></th>
@@ -43,9 +44,10 @@
                                     <td>{$vo->单份存力}TB</td>
                                     <td>{$vo->单份价格}USDT</td>
                                     <td>{$vo->合约周期}天</td>
-                                    <td>{$vo->预计产出回报率}%</td>
-                                    <td>{$vo->日产出}USDT</td>
-                                    <td>{$vo->全周期收益}USDT</td>
+                                    <td>{$vo->日产出展示}USDT</td>
+                                    <td>{$vo->日产出计算}USDT</td>
+                                    <td>{$vo->开挖时间}</td>
+                                    <td>{$vo->分币比例}%</td>
                                     <td>{$vo->剩余算力}TB</td>
                                     <td id="status{$vo.mill_id}">{$vo->status_text}</td>
                                     <td>
@@ -69,12 +71,12 @@
 <script>
     //添加
     $("#add").click(function(){
-        location.href = "/admin/app/mill_add";
+        location.href = "/admin/app/mill租赁_add";
     })
 
     //修改
     function update(id){
-        location.href = "/admin/app/mill_update?id=" + id;
+        location.href = "/admin/app/mill租赁_update?id=" + id;
     }
     //删除
     function item_status(id, status){
@@ -82,7 +84,7 @@
             btn: ['是','否']
         }, function(){
             $.ajax({
-                url: "/admin/app/mill_status",
+                url: "/admin/app/mill租赁_status",
                 type: "post",
                 data: {id: id, status: status},
                 success: function(data){

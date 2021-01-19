@@ -37,3 +37,12 @@ Route::rule('app/mill_update_submit', '/admin/app/mill_update_submit');
 Route::rule('app/mill_status', '/admin/app/mill_status');
 
 Route::rule('app/会员算力', '/admin/app/会员算力');
+
+Route::rule('app/mill租赁', '/admin/app/mill租赁');
+Route::rule('app/mill租赁_add', '/admin/app/mill租赁_add');
+Route::rule('app/mill租赁_add_submit', '/admin/app/mill租赁_add_submit');
+Route::rule('app/mill租赁_update', '/admin/app/mill租赁_update');
+Route::rule('app/mill租赁_update_submit', '/admin/app/mill租赁_update_submit');
+Route::rule('app/mill租赁_status', '/admin/app/mill租赁_status');
+
+Route::rule('app/会员租赁算力', '/admin/app/会员租赁算力');

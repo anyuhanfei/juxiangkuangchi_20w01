@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">单挖算力添加</div>
+                        <div class="card-title">租赁单挖算力添加</div>
                     </div>
                     <div class="card-body" style="padding: 15px 200px 10px;">
                         <div class="form-group">
@@ -20,8 +20,8 @@
                         </div>
                         <div class="form-group">
                             <label for="单份存力">单份存力*</label>
-                            <input type="number" class="form-control" id="单份存力">
-                            <small id="emailHelp" class="form-text text-muted text-danger">单位TB</small>
+                            <input type="text" class="form-control" id="单份存力">
+                            <small id="emailHelp" class="form-text text-muted text-danger">怎么填写怎么展示</small>
                         </div>
                         <div class="form-group">
                             <label for="单份价格">单份价格*</label>
@@ -29,24 +29,29 @@
                             <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
                         </div>
                         <div class="form-group">
-                            <label for="合约周期">合约周期*</label>
+                            <label for="合约周期">锁定周期*</label>
                             <input type="number" class="form-control" id="合约周期">
                             <small id="emailHelp" class="form-text text-muted text-danger">单位天</small>
                         </div>
                         <div class="form-group">
-                            <label for="预计产出回报率">预计产出回报率*</label>
-                            <input type="number" class="form-control" id="预计产出回报率">
+                            <label for="日产出展示">日产出(展示)*</label>
+                            <input type="number" class="form-control" id="日产出展示">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="日产出计算">日产出(计算)*</label>
+                            <input type="number" class="form-control" id="日产出计算">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="分币比例">分币比例*</label>
+                            <input type="number" class="form-control" id="分币比例">
                             <small id="emailHelp" class="form-text text-muted text-danger">单位%</small>
                         </div>
                         <div class="form-group">
-                            <label for="日产出">日产出(计算)*</label>
-                            <input type="number" class="form-control" id="日产出">
-                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="全周期收益">全周期收益(展示)*</label>
-                            <input type="number" class="form-control" id="全周期收益">
-                            <small id="emailHelp" class="form-text text-muted text-danger">单位USDT</small>
+                            <label for="开挖时间">开挖时间*</label>
+                            <input type="text" class="form-control" id="开挖时间">
+                            <small id="emailHelp" class="form-text text-muted text-danger">格式为: 0000-00-00 00:00:00</small>
                         </div>
                         <div class="form-group">
                             <label for="剩余算力">剩余算力*</label>
@@ -69,7 +74,7 @@
 
 //取消
 $("#cancel").click(function(){
-    location.href = "/admin/app/mill";
+    location.href = "/admin/app/mill租赁";
 })
 
 //提交
@@ -79,12 +84,13 @@ $("#submit").click(function(){
     fd.append('单份存力', $("#单份存力").val());
     fd.append('单份价格', $("#单份价格").val());
     fd.append('合约周期', $("#合约周期").val());
-    fd.append('预计产出回报率', $("#预计产出回报率").val());
-    fd.append('日产出', $("#日产出").val());
-    fd.append('全周期收益', $("#全周期收益").val());
+    fd.append('开挖时间', $("#开挖时间").val());
+    fd.append('日产出展示', $("#日产出展示").val());
+    fd.append('日产出计算', $("#日产出计算").val());
+    fd.append('分币比例', $("#分币比例").val());
     fd.append('剩余算力', $("#剩余算力").val());
     $.ajax({
-        url: "/admin/app/mill_add_submit",
+        url: "/admin/app/mill租赁_add_submit",
         type: "post",
         processData: false,
         contentType: false,
@@ -97,7 +103,7 @@ $("#submit").click(function(){
                 custom_notify('warning', '算力添加', data.msg);
             }else if(data.code == 1){
                 setTimeout(() => {
-                    location.href = "/admin/app/mill_add";
+                    location.href = "/admin/app/mill租赁_add";
                 }, 1500);
                 custom_notify('success', '算力添加', data.msg);
             }

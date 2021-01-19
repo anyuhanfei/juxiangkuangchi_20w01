@@ -16,10 +16,12 @@ use app\admin\model\IdxActivity;
 use app\admin\model\IdxFeedback;
 use app\admin\model\IdxForGotPwd;
 use app\admin\model\IdxMill;
+use app\admin\model\IdxMillLease;
 use app\admin\model\IdxUser;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserMessage;
 use app\admin\model\IdxUserMill;
+use app\admin\model\IdxUserMillLease;
 use app\admin\model\IdxWithdraw;
 use app\admin\model\LogUserFund;
 
@@ -438,5 +440,127 @@ class App extends Admin{
         return View::fetch();
     }
 
-    
+    public function mill租赁(){
+        View::assign('list', IdxMillLease::select());
+        return View::fetch();
+    }
+
+    public function mill租赁_add(){
+        return View::fetch();
+    }
+
+    public function mill租赁_add_submit(){
+        $名称 = Request::instance()->param('名称', '');
+        $单份存力 = Request::instance()->param('单份存力', '');
+        $单份价格 = Request::instance()->param('单份价格', '');
+        $合约周期 = Request::instance()->param('合约周期', '');
+        $开挖时间 = Request::instance()->param('开挖时间', '');
+        $日产出展示 = Request::instance()->param('日产出展示', '');
+        $日产出计算 = Request::instance()->param('日产出计算', '');
+        $分币比例 = Request::instance()->param('分币比例', '');
+        $剩余算力 = Request::instance()->param('剩余算力', '');
+        if($名称 == '' && $单份存力 == '' && $单份价格 == '' && $合约周期 == '' && $开挖时间 == '' && $日产出展示 == '' && $日产出计算 == '' && $剩余算力 == ''){
+            return return_data(2, '', '有必填信息未填写');
+        }
+        $data = [];
+        $data['名称'] = $名称;
+        $data['单份存力'] = $单份存力;
+        $data['单份价格'] = $单份价格;
+        $data['合约周期'] = $合约周期;
+        $data['开挖时间'] = $开挖时间;
+        $data['日产出展示'] = $日产出展示;
+        $data['日产出计算'] = $日产出计算;
+        $data['分币比例'] = $分币比例;
+        $data['剩余算力'] = $剩余算力;
+        $data['status'] = 0;
+        $res = IdxMillLease::create($data);
+        if($res){
+            return return_data(1, '', '添加成功', '算力添加：'.$名称);
+        }else{
+            return return_data(2, '', '添加失败，请联系管理员');
+        }
+    }
+
+    public function mill租赁_update(){
+        $id = Request::instance()->param('id', 0);
+        $mill = IdxMillLease::find($id);
+        $has_data = "true";
+        if(!$mill){
+            $has_data = "false";
+        }
+        View::assign('has_data', $has_data);
+        View::assign('detail', $mill);
+        return View::fetch();
+    }
+
+    public function mill租赁_update_submit(){
+        $id = Request::instance()->param('id', '');
+        $名称 = Request::instance()->param('名称', '');
+        $单份存力 = Request::instance()->param('单份存力', '');
+        $单份价格 = Request::instance()->param('单份价格', '');
+        $合约周期 = Request::instance()->param('合约周期', '');
+        $开挖时间 = Request::instance()->param('开挖时间', '');
+        $日产出展示 = Request::instance()->param('日产出展示', '');
+        $日产出计算 = Request::instance()->param('日产出计算', '');
+        $分币比例 = Request::instance()->param('分币比例', '');
+        $剩余算力 = Request::instance()->param('剩余算力', '');
+        if($名称 == '' && $单份存力 == '' && $单份价格 == '' && $合约周期 == '' && $开挖时间 == '' && $日产出展示 == '' && $日产出计算 == '' && $剩余算力 == ''){
+            return return_data(2, '', '有必填信息未填写');
+        }
+        $mill = IdxMillLease::find($id);
+        if(!$mill){
+            return return_data(2, '', '非法操作');
+        }
+        $mill->名称 = $名称;
+        $mill->单份存力 = $单份存力;
+        $mill->单份价格 = $单份价格;
+        $mill->合约周期 = $合约周期;
+        $mill->开挖时间 = $开挖时间;
+        $mill->日产出展示 = $日产出展示;
+        $mill->日产出计算 = $日产出计算;
+        $mill->分币比例 = $分币比例;
+        $mill->剩余算力 = $剩余算力;
+        $res = $mill->save();
+        if($res){
+            return return_data(1, '', '算力修改成功', '修改算力信息, 算力id为:' . $id);
+        }else{
+            return return_data(2, '', '算力修改失败');
+        }
+    }
+
+    public function mill租赁_status(){
+        $id = Request::instance()->param('id', 0);
+        $status = Request::instance()->param('status', -1);
+        if($status == -1){
+            return return_data(2, '', '非法操作');
+        }
+        $mill = IdxMillLease::find($id);
+        if(!$mill){
+            return return_data(2, '', '非法操作');
+        }
+        $mill->status = $status;
+        $res = $mill->save();
+        if($res){
+            return return_data(1, $mill->status_text, '算力状态修改成功', '修改算力状态, 算力id为:' . $id);
+        }else{
+            return return_data(2, '', '算力状态修改失败');
+        }
+    }
+
+    public function 会员租赁算力(){
+        $user_id = Request::instance()->param('user_id', '');
+        $user_identity = Request::instance()->param('user_identity', '');
+        $mill_id = Request::instance()->param('mill_id', '');
+        $start_time = Request::instance()->param('start_time', '');
+        $end_time = Request::instance()->param('end_time', '');
+        $obj = new IdxUserMillLease;
+        $obj = ($user_id != '') ? $obj->where('user_id', $user_id) : $obj;
+        $obj = ($user_identity != '') ? $obj->where('user_identity', $user_identity) : $obj;
+        $obj = ($mill_id != '') ? $obj->where('mill_id', $mill_id) : $obj;
+        $obj = $this->where_time($obj, $start_time, $end_time);
+        $list = $obj->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
+        $this->many_assign(['list'=> $list, 'user_id'=> $user_id, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
+        View::assign('mills', IdxMill::select());
+        return View::fetch();
+    }
 }

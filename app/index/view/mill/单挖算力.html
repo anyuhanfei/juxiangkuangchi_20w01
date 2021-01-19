@@ -78,9 +78,47 @@
 					</div>
 				</div>
 				<div id="get2" class="mui-control-content">
-					<div class="no_dispark">
-						<img src="/static/index/img/矢量智能对象@2x.png">
-						<div>暂未开放，敬请期待</div>
+					<div>
+						{volist name="z_mills" id="vo"}
+						<div class="index_center">
+							{if condition="$vo.status == 1"}
+							<div class="being_sold">正在热卖</div>
+							{else /}
+							<div class="not_yet">暂未开启</div>
+							{/if}
+							<a href="/index/mill/租赁矿机详情?id={$vo.mill_id}" class="location_jump">
+								<div class="flexbox_nowrap flexbox_nowrap_start">
+									<img src="/static/index/img/-s-图层5@2x.png">
+									<div>{$vo->名称}</div>
+								</div>
+								<div class="gray_color">IPFS全网算力领先矿池</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>单份存力</div>
+									<div class="blue_color">{$vo->单份存力}</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>单份价格</div>
+									<div> <span class="blue_color">{$vo->单份价格} </span> USDT</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>锁定期</div>
+									<div class="blue_color">{$vo->合约周期}天</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>日挖矿产出</div>
+									<div>约 <span class="blue_color">{$vo->日产出展示} USDT/天</span></div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div>剩余算力</div>
+									<div class="blue_color">{$vo->剩余算力}TB</div>
+								</div>
+								<div class="flexbox_nowrap flexbox_nowrap_between">
+									<div class="gray_color">开挖时间</div>
+									<div class="gray_color">{$vo->开挖时间}</div>
+								</div>
+							</a>
+						</div>
+						{/volist}
 					</div>
 				</div>
 			</div>

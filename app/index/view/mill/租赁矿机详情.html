@@ -50,48 +50,43 @@
 </head>
 <body>
 	<header class="mui-bar mui-bar-nav head_bg">
-		<a href="/index/mill/单挖算力" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
-		<h1 class="mui-title">矿机详情</h1>
+		<a href="javascript:;" class="mui-icon mui-icon-left-nav mui-pull-left writer_color"></a>
+		<h1 class="mui-title">算力包详情</h1>
 	</header>
 	<div class="mui-content mui-scroll-wrapper content_color">
 		<div class="mui-scroll">
 			<div class="public_box">
 				<div class="index_center">
-					{if condition="$mill.status == 1"}
 					<div class="being_sold">正在热卖</div>
-					{else /}
-					<div class="not_yet">暂未开启</div>
-					{/if}
 					<div>
 						<div class="flexbox_nowrap flexbox_nowrap_start">
 							<img src="/static/index/img/-s-图层5@2x.png">
-							<img src="/static/index/img/-s-图层8@2x.png">
 							<div>{$mill->名称}</div>
 						</div>
-						<div class="gray_color">PFS全网算力领先矿池</div>
-						<div class="flexbox_nowrap flexbox_nowrap_between">
-							<div>单份存力</div>
-							<div class="blue_color">{$mill->单份存力}TB</div>
-						</div>
+						<div class="gray_color">IPFS全网算力领先矿池</div>
 						<div class="flexbox_nowrap flexbox_nowrap_between">
 							<div>单份价格</div>
 							<div> <span class="blue_color">{$mill->单份价格}</span> USDT</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>单份存力</div>
+							<div class="blue_color">{$mill->单份存力}</div>
 						</div>
 						<div class="flexbox_nowrap flexbox_nowrap_between">
 							<div>合约周期</div>
 							<div class="blue_color">{$mill->合约周期}天</div>
 						</div>
 						<div class="flexbox_nowrap flexbox_nowrap_between">
-							<div>预计产出回报率</div>
-							<div class="blue_color">{$mill->预计产出回报率}%</div>
-						</div>
-						<div class="flexbox_nowrap flexbox_nowrap_between">
 							<div>剩余算力</div>
-							<div class="blue_color">{$mill->剩余算力}T</div>
+							<div class="blue_color">{$mill->剩余算力} TB</div>
 						</div>
 						<div class="flexbox_nowrap flexbox_nowrap_between">
-							<div>收益</div>
-							<div>{$vo->全周期收益} USDT</div>
+							<div>开挖时间</div>
+							<div class="">{$mill->开挖时间}</div>
+						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<div>分币比例</div>
+							<div class="blue_color">{$mill->分币比例}%</div>
 						</div>
 					</div>
 				</div>
@@ -103,24 +98,24 @@
 						</div>
 					<ul class="mui-table-view mui-grid-view mui-grid-9">
 						<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
-							<img src="/static/index/img/全球云资源@2x.png" class="notice_img">
-							<div>全球云资源</div>
-							<div class="height_limit">全球部署专业级IDC环境</div>
+							<img src="/static/index/img/-s-1@2x.png" class="notice_img">
+							<div>满存开挖</div>
+							<div>交付即满存，无需等待封存</div>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
-							<img src="/static/index/img/-s-2@2x.png" class="notice_img">
-							<div>低门槛进入</div>
-							<div>1B存力轻松接入Fiecain网络</div>
+							<img src="/static/index/img/123.png" class="notice_img">
+							<div>无需质押</div>
+							<div>平台提供质押，无需额外投入</div>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
-							<img src="/static/index/img/稳定性更高@2x.png" class="notice_img">
-							<div>稳定性更高</div>
-							<div class="height_limit">7*24小时专业运维团队</div>
+							<img src="/static/index/img/-s-3@2x.png" class="notice_img">
+							<div>产出透明</div>
+							<div>主网数据同步，产出公开透明</div>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
-							<img src="/static/index/img/高投资回报@2x.png" class="notice_img">
-							<div>高投资回报</div>
-							<div>测试网奖励头矿双收益，更额外赠送BTC经典算力</div>
+							<img src="/static/index/img/-s-4@2x.png" class="notice_img">
+							<div>顶级运维</div>
+							<div>专家运维服务，高效产出保障</div>
 						</li>
 					</ul>
 				</div>
@@ -143,20 +138,19 @@
 			</div>
 		</div>
 	</div>
-
 	<script src="/static/index/js/jquery.min.js"></script>
 	<script src="/static/layer/layer.js"></script>
 	<script src="/static/index/js/public.js"></script>
 	<script type="text/javascript">
 		// let href_jump = localStorage.getItem('jump');
-		// $(".mui-pull-left").attr("href",href_jump);
+		$(".mui-pull-left").attr("href", '/index/mill/单挖算力');
 
 		$(".a_big_btn").click(function(){
 			if($(".a_big_btn").html() == '暂未开启'){
 				layer.msg('暂未开启')
 				return
 			}
-			location.href = "/index/mill/支付?id={$mill.mill_id}"
+			location.href = "/index/mill/租赁矿机支付?id={$mill.mill_id}"
 		})
 	</script>
 </body>

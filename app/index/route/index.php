@@ -41,6 +41,10 @@ Route::rule('/mill/支付提交', 'index/mill/支付提交');
 Route::rule('/mill/算力产出', 'index/mill/算力产出');
 Route::rule('/mill/我的算力', 'index/mill/我的算力');
 
+Route::rule('/mill/租赁矿机详情', 'index/mill/租赁矿机详情');
+Route::rule('/mill/租赁矿机支付', 'index/mill/租赁矿机支付');
+Route::rule('/mill/租赁矿机支付提交', 'index/mill/租赁矿机支付提交');
+
 //我的
 Route::rule('/me', 'index/me/我的');
 Route::rule('/me/个人中心', 'index/me/个人中心');

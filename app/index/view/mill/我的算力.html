@@ -53,7 +53,7 @@
 							</div>
 							{volist name="mymills" id="vo"}
 							<div class="index_center">
-								<a href="mill_info.html" class="location_jump">
+								<a href="###" class="location_jump">
 									<div class="flexbox_nowrap flexbox_nowrap_start">
 										<img src="/static/index/img/-s-图层5@2x.png">
 										<img src="/static/index/img/-s-图层8@2x.png">
@@ -63,6 +63,33 @@
 									<div class="flexbox_nowrap flexbox_nowrap_between">
 										<div>单份存力</div>
 										<div class="blue_color">{$vo->mill->单份存力} TB</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>数量</div>
+										<div class="blue_color">{$vo.number}</div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>总价格</div>
+										<div> <span class="blue_color">{$vo->总价}</span> USDT </div>
+									</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>剩余周期</div>
+										<div class="blue_color">{$vo->剩余周期} 天</div>
+									</div>
+								</a>
+							</div>
+							{/volist}
+							{volist name="myzmills" id="vo"}
+							<div class="index_center">
+								<a href="###" class="location_jump">
+									<div class="flexbox_nowrap flexbox_nowrap_start">
+										<img src="/static/index/img/-s-图层5@2x.png">
+										<div>{$vo->mill->名称}</div>
+									</div>
+									<div class="gray_color">IPFS全网算力领先矿池</div>
+									<div class="flexbox_nowrap flexbox_nowrap_between">
+										<div>单份存力</div>
+										<div class="blue_color">{$vo->mill->单份存力}</div>
 									</div>
 									<div class="flexbox_nowrap flexbox_nowrap_between">
 										<div>数量</div>

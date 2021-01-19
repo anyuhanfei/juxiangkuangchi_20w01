@@ -11,6 +11,7 @@ use app\admin\model\IdxUser;
 use app\admin\model\IdxUserData;
 use app\admin\model\IdxUserMessage;
 use app\admin\model\IdxUserMill;
+use app\admin\model\IdxUserMillLease;
 use app\admin\model\SysAd;
 use app\admin\model\SysSetting;
 
@@ -22,9 +23,14 @@ class Me extends Index{
 
     public function 我的(){
         $user_mills = IdxUserMill::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->select();
+        $user_z_mills = IdxUserMillLease::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->select();
         $总资产 = $this->user->userfund->USDT;
         $收益 = 0;
         foreach($user_mills as $v){
+            $总资产 += $v->总价;
+            $收益 += $v->每日收益;
+        }
+        foreach($user_z_mills as $v){
             $总资产 += $v->总价;
             $收益 += $v->每日收益;
         }

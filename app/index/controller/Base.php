@@ -6,6 +6,7 @@ use think\facade\Session;
 use app\admin\model\IdxUser;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserMill;
+use app\admin\model\IdxUserMillLease;
 use app\admin\model\LogUserFund;
 use app\admin\model\SysSetting;
 
@@ -69,6 +70,10 @@ class Base{
     }
 
     public function 算力收益(){
+        //获取当日FIL汇率 USDT:FIL
+        $USDT2FIL = SysSetting::where('sign', 'USDT2FIL')->value('value');
+
+        //单挖算力
         //获取所有有效算力
         $mills = IdxUserMill::where('剩余周期', '>', 0)->select();
         //将有效算力以会员id分组
@@ -76,8 +81,6 @@ class Base{
         foreach($mills as $v){
             $user_mills[$v->user_id][] = $v;
         }
-        //获取当日FIL汇率 USDT:FIL
-        $USDT2FIL = SysSetting::where('sign', 'USDT2FIL')->value('value');
         //所有有效算力扣除一天周期, 更新最后一次收益时间
         foreach($mills as $v){
             $v->剩余周期 -= 1;
@@ -86,6 +89,33 @@ class Base{
             $v->save();
         }
         //循环会员id, 分别向每个会员发放收益
+        foreach($user_mills as $k=>$user_mill){
+            $user_fund = IdxUserFund::find($k);
+            foreach($user_mill as $v){
+                $add_fil = $v->每日收益 * $USDT2FIL;
+                $user_fund->FIL += $add_fil;
+                LogUserFund::create_data($k, $add_fil, 'FIL', '算力收益', '算力收益');
+            }
+            $user_fund->save();
+        }
+
+        //单挖租赁
+        $mills = IdxUserMillLease::where('剩余周期', '>', 0)->select();
+        foreach($mills as $k => $v){
+            if(strtotime($v->insert_time) > time()){
+                unset($mills[$k]);
+            }
+        }
+        $user_mills = [];
+        foreach($mills as $v){
+            $user_mills[$v->user_id][] = $v;
+        }
+        foreach($mills as $v){
+            $v->剩余周期 -= 1;
+            $v->总产出 += $v->每日收益;
+            $v->operation_time = date("Y-m-d", time());
+            $v->save();
+        }
         foreach($user_mills as $k=>$user_mill){
             $user_fund = IdxUserFund::find($k);
             foreach($user_mill as $v){
