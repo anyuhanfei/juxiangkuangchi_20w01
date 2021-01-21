@@ -249,7 +249,7 @@ class App extends Admin{
         $user_identity = Request::instance()->param('user_identity', '');
         $start_time = Request::instance()->param('start_time', '');
         $end_time = Request::instance()->param('end_time', '');
-        $obj = new IdxForGotPwd;
+        $obj = new IdxForgotPwd;
         $obj = ($user_id != '') ? $obj->where('user_id', $user_id) : $obj;
         $obj = ($user_identity != '') ? $obj->where('user_identity', $user_identity) : $obj;
         $obj = $this->where_time($obj, $start_time, $end_time);
@@ -560,7 +560,7 @@ class App extends Admin{
         $obj = $this->where_time($obj, $start_time, $end_time);
         $list = $obj->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         $this->many_assign(['list'=> $list, 'user_id'=> $user_id, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
-        View::assign('mills', IdxMill::select());
+        View::assign('mills', IdxMillLease::select());
         return View::fetch();
     }
 }

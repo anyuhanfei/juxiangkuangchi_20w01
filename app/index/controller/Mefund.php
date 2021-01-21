@@ -61,6 +61,7 @@ class Mefund extends Index{
             'address'=> $address,
             'remark'=> $remark,
             'number'=> $number,
+            'fee'=> 0,
             'insert_time'=> date("Y-m-d H:i:s", time())
         ]);
         if($res_one && $res_two){
