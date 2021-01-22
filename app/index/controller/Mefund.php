@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\facade\Session;
 use think\facade\View;
 use think\facade\Request;
+use think\facade\Env;
 
 use app\admin\model\IdxUser;
 use app\admin\model\IdxUserFund;
@@ -29,6 +30,23 @@ class Mefund extends Index{
     }
 
     public function 充值(){
+        if($this->user->address == ''){
+            $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+            $url = "http://". $kuake_ip ."/tron/createAddress?userId=" . $this->user_id;
+            $opts = array(
+                'http'=>array(
+                  'method'=>"GET",
+                  "header"=> "Content-Type:application/x-www-form-urlencoded"
+                )
+            );
+            $context = stream_context_create($opts);
+            $res = json_decode(file_get_contents($url, false, $context));
+            if($res->code == 200){
+                $this->user->address = $res->data;
+                $this->user->address_qrcode = png_erwei($this->user->taddress, $this->user->taddress);
+                $this->user->save();
+            }
+        }
         return View::fetch();
     }
 

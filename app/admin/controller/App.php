@@ -5,6 +5,7 @@ use think\facade\View;
 use think\facade\Session;
 use think\facade\Request;
 use think\facade\Cookie;
+use think\facade\Env;
 
 use app\admin\model\SysCatalog;
 use app\admin\model\AdmAdmin;
@@ -562,5 +563,327 @@ class App extends Admin{
         $this->many_assign(['list'=> $list, 'user_id'=> $user_id, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
         View::assign('mills', IdxMillLease::select());
         return View::fetch();
+    }
+
+    /**
+     * 提币地址列表
+     *
+     * @return void
+     */
+    public function address(){
+        $user_identity = Request::instance()->param('user_identity', '');
+        $start_time = Request::instance()->param('start_time', '');
+        $end_time = Request::instance()->param('end_time', '');
+        $log = new UserAddr;
+        $user = IdxUser::field('user_id, phone, address')->where('user_id', $user_identity)->find();
+        if($user){
+            $log = $log->where('user_id', $user->user_id);
+        }
+        $log = $this->where_time($log, $start_time, $end_time, 'create_time');
+        $list = $log->where('is_deleted', 0)->order('create_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
+        $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'start_time'=> $start_time, 'end_time'=> $end_time]);
+        return View::fetch();
+    }
+
+    public function user_fund_link(){
+        $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+        $user_identity = Request::instance()->param('user_identity', '');
+        $stock_code_search = Request::instance()->param('stock_code_search', '');
+        $user = new IdxUser;
+        $user = $user_identity == '' ? $user : $user->where('user_id', $user_identity);
+        $list = $user->order('user_id desc')->paginate(['list_rows'=> 200, 'query'=>Request()->param()]);
+        foreach($list as $k=>$v){
+            $user_addr = UserAddr::where('user_id', $v->user_id)->where('type', 1)->order('id desc')->find();
+            if(!$user_addr){
+                $url = "http://". $kuake_ip ."/wallet/createAddr?userId=" . $v->user_id;
+                $opts = array(
+                    'http'=>array(
+                    'method'=>"POST",
+                    )
+                );
+                $context = stream_context_create($opts);
+                $res = json_decode(file_get_contents($url, false, $context));
+                if($res->code == 200){
+                    $addr = $res->data;
+                }else{
+                    continue;
+                }
+            }else{
+                $addr = $user_addr->addr;
+            }
+            $v->address = $addr;
+            $url = "http://".$kuake_ip."/wallet/balance?from=".$addr;
+            $res = json_decode(file_get_contents($url));
+            if($res->code == 200){
+                $v->coin = $res->data;
+                if($v->coin->USDT <= 0 && $v->coin->TTP <= 0 && $v->coin->TTA <= 0 && $v->coin->ETH <= 0){
+                    unset($list[$k]);
+                }
+            }else{
+                $v->coin = json_decode("");
+            }
+        }
+        if($stock_code_search != ''){
+            $array_count = count($list);
+            for($i = 1; $i < $array_count; $i++){
+                for($j = $i; $j > 0 && $list[$j]['coin']->$stock_code_search > $list[$j-1]['coin']->$stock_code_search; $j--){
+                    $middle = $list[$j-1];
+                    $list[$j-1] = $list[$j];
+                    $list[$j] = $middle;
+                }
+            }
+        }
+        View::assign('token_config', TokenConfig::select());
+        View::assign('list', $list);
+        View::assign('user_identity', $user_identity);
+        View::assign('stock_code_search', $stock_code_search);
+        return View::fetch();
+    }
+
+    /**
+     * TRC20 链上钱包
+     *
+     * @return void
+     */
+    public function t_user_fund_link(){
+        $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+        $user_identity = Request::instance()->param('user_identity', '');
+        $stock_code_search = Request::instance()->param('stock_code_search', '');
+        $user = new IdxUser;
+        $user = $user_identity == '' ? $user : $user->where('user_id', $user_identity);
+        $list = $user->order('user_id desc')->paginate(['list_rows'=> 200, 'query'=>Request()->param()]);
+        foreach($list as $k=>$v){
+            $user_addr = UserAddr::where('user_id', $v->user_id)->where('type', 3)->order('id desc')->find();
+            if(!$user_addr){
+                $url = "http://". $kuake_ip ."/tron/createAddress?userId=" . $v->user_id;
+                $opts = array(
+                    'http'=>array(
+                        'method'=>"GET",
+                    )
+                );
+                $context = stream_context_create($opts);
+                $res = json_decode(file_get_contents($url, false, $context));
+                if($res->code == 200){
+                    $addr = $res->data;
+                }else{
+                    continue;
+                }
+            }else{
+                $addr = $user_addr->addr;
+            }
+            $v->taddress = $addr;
+            $url = "http://".$kuake_ip."/tron/trcBalance?address=".$addr;
+            $res = json_decode(file_get_contents($url));
+            if($res->code == 200){
+                $v->coin = $res->data;
+                if($v->coin <= 0){
+                    unset($list[$k]);
+                }
+            }else{
+                $v->coin = json_decode("");
+            }
+        }
+        if($stock_code_search != ''){
+            $array_count = count($list);
+            for($i = 1; $i < $array_count; $i++){
+                for($j = $i; $j > 0 && $list[$j]['coin']->$stock_code_search > $list[$j-1]['coin']->$stock_code_search; $j--){
+                    $middle = $list[$j-1];
+                    $list[$j-1] = $list[$j];
+                    $list[$j] = $middle;
+                }
+            }
+        }
+        View::assign('token_config', TokenConfig::select());
+        View::assign('list', $list);
+        View::assign('user_identity', $user_identity);
+        View::assign('stock_code_search', $stock_code_search);
+        return View::fetch();
+    }
+
+    /**
+     * TRC20归集
+     *
+     * @return void
+     */
+    public function t_cc_submit(){
+        //获取信息
+        $user_ids = Request::instance()->param('user_ids', '');
+        $validate = new \app\admin\validate\Block;
+        if($user_ids == ''){
+            return return_data(2, '', '请选择归集会员');
+        }
+        // 一些定义
+        $golden_address = 'TLnyfuNjjBFtcyNpzsLr2FxkE5GidgYaTk';
+        $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+        //循环会员
+        $res_array = array();
+        $user_id_array = explode(',', $user_ids);
+        foreach($user_id_array as $k=> $v){
+            if($v == ''){
+                continue;
+            }
+            $user_id = $v;
+            $user = UserAddr::where('user_id', $user_id)->where('type', 3)->order('id desc')->find();
+            // 获取当前金额
+            $url = "http://".$kuake_ip."/tron/trcBalance?address=".$user->addr;
+            $res = json_decode(file_get_contents($url));
+            if($res->code == 200){
+                if($res->data > 0){
+                    $url = "http://". $kuake_ip ."/tron/sendTrc?balance=".$res->data."&from=".$user->addr."&privateKey=".$user->salt."&to=".$golden_address;
+                    $opts = array(
+                        'http'=>array(
+                        'method'=>"POST",
+                        )
+                    );
+                    $context = stream_context_create($opts);
+                    $res = json_decode(file_get_contents($url, false, $context));
+                    if($res->code != 200){
+                        $res_array[] = $user_id;
+                    }else{
+                        CollectLog::create([
+                            'code'=> 'USDT',
+                            'from_addr'=> $user->addr,
+                            'to_addr'=> $golden_address,
+                            'create_time'=> date("Y-m-d H:i:s", time()),
+                            'gj_status'=> 0,
+                            'money'=> $res->data,
+                            'from_user_id'=> $user_id,
+                            'collect_type'=> 1
+                        ]);
+                    }
+                }
+            }else{
+                $res_array[] = $user_id;
+                continue;
+            }
+        }
+        $str = '归集完成,请手动刷新页面.';
+        if($res_array){
+            $str .= '有归集失败或未满足条件的会员:';
+            foreach($res_array as $v){
+                $str .= $v . ' ';
+            }
+        }else{
+            $str .= '所选会员全部归集成功';
+        }
+        return return_data(1, '', $str, 'json');
+    }
+
+    /**
+     * 充值日志
+     *
+     * @return void
+     */
+    public function recharge_log(){
+        $user_identity = Request::instance()->param('user_identity', '');
+        $stock_code = Request::instance()->param('stock_code', '');
+        $start_time = Request::instance()->param('start_time', '');
+        $end_time = Request::instance()->param('end_time', '');
+        $log = new UserCharge;
+        $user = IdxUser::field('user_id, phone')->where('user_id', $user_identity)->find();
+        if($user){
+            $log = $log->where('user_id', $user->user_id);
+        }
+        $log = ($stock_code != '') ? $log->where('code', $stock_code) : $log;
+        $log = $this->where_time($log, $start_time, $end_time, 'create_time');
+        $list = $log->where('charge_type', 1)->where('is_deleted', 0)->order('create_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
+        $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'start_time'=> $start_time, 'end_time'=> $end_time, 'stock_code'=> $stock_code]);
+        $stock_codes = TokenConfig::select();
+        View::assign('stock_codes', $stock_codes);
+        return View::fetch();
+    }
+
+
+    public function withdraw_log(){
+        $withdraw5 = UserCharge::where('inspect_status', 5)->select();
+        if($withdraw5){
+            $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+            foreach($withdraw5 as $v){
+                $url = "http://". $kuake_ip ."/wallet/transactionStatus?hash=" . $v->hash;
+                $res = json_decode(file_get_contents($url));
+                if($res->code == 200){
+                    if($res->data == 1){ //失败, 转成待确认
+                        $v->inspect_status = 0;
+                        $v->save();
+                    }elseif($res->data == 2){
+                        $v->inspect_status = 1;
+                        $v->save();
+                    }
+                }
+            }
+        }
+        $user_identity = Request::instance()->param('user_identity', '');
+        $stock_code = Request::instance()->param('stock_code', '');
+        $start_time = Request::instance()->param('start_time', '');
+        $end_time = Request::instance()->param('end_time', '');
+        $log = new UserCharge;
+        $log = ($user_identity != '') ? $log->where('user_id', $user_identity) : $log;
+        $log = ($stock_code != '') ? $log->where('code', $stock_code) : $log;
+        $log = $this->where_time($log, $start_time, $end_time);
+        $list = $log->where('charge_type', 2)->where('is_deleted', 0)->order('inspect_status asc')->order('id desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
+        $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'stock_code'=> $stock_code, 'start_time'=> $start_time, 'end_time'=> $end_time]);
+        $stock_codes = TokenConfig::select();
+        View::assign('stock_codes', $stock_codes);
+        return View::fetch();
+    }
+
+    public function withdraw_submit($swift_no){
+        $status = Request::instance()->param('status', -1);
+        if($status != 1 && $status != 2){
+            return return_data(2, '', '非法操作');
+        }
+        $withdraw = UserCharge::where('swift_no', $swift_no)->find();
+        if(!$withdraw){
+            return return_data(2, '', '非法操作');
+        }
+        if($status == 2){
+            // 驳回
+            $code = $withdraw->code;
+            $user_fund = IdxUserFund::find($withdraw->user_id);
+            $user_fund->$code += $withdraw->balance + $withdraw->poundage;
+            $user_fund->save();
+            LogUserFund::create_data($withdraw->user_id, $withdraw->balance + $withdraw->poundage, $code, '提现驳回', '提现审核被驳回');
+            $withdraw->inspect_time = date("Y-m-d H:i:s", time());
+            $withdraw->inspect_status = 2;
+            $withdraw->save();
+            return return_data(1, '', '操作成功');
+        }else{
+            $withdraw = UserCharge::where('swift_no', $swift_no)->find();
+            $withdraw->inspect_time = date("Y-m-d H:i:s", time());
+            $withdraw->inspect_status = 1;
+            $withdraw->hash = '';
+            $withdraw->save();
+            return return_data(1, '', '操作成功, 请手动拨款', '提现审核通过');
+
+            // // 通过
+            // $withdraw_address_key = SysSetting::where('sign', 'withdraw_address_key')->value('value');
+            // $withdraw_address = SysSetting::where('sign', 'withdraw_address')->value('value');
+            // $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+            // $url = "http://". $kuake_ip ."/wallet/send?code=".$withdraw->code."&balance=".$withdraw->balance."&from=".$withdraw_address."&privateKey=".$withdraw_address_key."&to=".$withdraw->to_addr.'&type=1';
+            // $opts = array(
+            //     'http'=>array(
+            //     'method'=>"POST",
+            //     )
+            // );
+            // $context = stream_context_create($opts);
+            // $res = json_decode(file_get_contents($url, false, $context));
+            // if($res->code == 200){
+            //     $withdraw = UserCharge::where('swift_no', $swift_no)->find();
+            //     $withdraw->inspect_time = date("Y-m-d H:i:s", time());
+            //     $withdraw->inspect_status = 5;
+            //     $withdraw->hash = $res->data;
+            //     $withdraw->save();
+            //     return return_data(1, '', '操作成功, 再次进入提现列表时进行最终状态的获取', 'json');
+            // }else{
+            //     // $withdraw = UserCharge::where('swift_no', $swift_no)->find();
+            //     // $withdraw->inspect_time = date("Y-m-d H:i:s", time());
+            //     // $withdraw->inspect_status = 2;
+            //     // $withdraw->save();
+            //     // $user_fund = IdxUserFund::find($withdraw->user_id);
+            //     // $user_fund->money += $withdraw->number + $withdraw->fee;
+            //     // $user_fund->save();
+            //     return return_data(2, '', '操作失败', 'json');
+            // }
+        }
     }
 }
