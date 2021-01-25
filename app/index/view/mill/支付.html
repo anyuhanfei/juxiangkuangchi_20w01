@@ -291,6 +291,13 @@
 				$('.password_error_show').hide()
 			})
 		});
+
+		if("{$user->level_password}" == '' || "{$user->level_password}" == 'undefined'){
+			layer.msg('还未设置交易密码')
+			setTimeout(() => {
+				location.href = "/index/me/设置交易密码";
+			}, 1500);
+		}
 	</script>
 </body>
 
