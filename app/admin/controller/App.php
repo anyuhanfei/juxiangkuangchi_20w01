@@ -15,7 +15,7 @@ use app\admin\model\SysModuleAction;
 use app\admin\controller\Admin;
 use app\admin\model\IdxActivity;
 use app\admin\model\IdxFeedback;
-use app\admin\model\IdxForGotPwd;
+use app\admin\model\IdxForgotPwd;
 use app\admin\model\IdxMill;
 use app\admin\model\IdxMillLease;
 use app\admin\model\IdxUser;
@@ -263,7 +263,7 @@ class App extends Admin{
         $id = Request::instance()->param('id', '');
         $status = Request::instance()->param('status', '');
         $content = Request::instance()->param('content', '');
-        $obj = IdxForGotPwd::find($id);
+        $obj = IdxForgotPwd::find($id);
         if(!$obj){
             return return_data(2, '', '无此申请数据');
         }

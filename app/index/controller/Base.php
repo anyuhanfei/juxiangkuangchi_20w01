@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\facade\Session;
 
 use app\admin\model\IdxUser;
+use app\admin\model\IdxUserCount;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserMill;
 use app\admin\model\IdxUserMillLease;
@@ -91,12 +92,15 @@ class Base{
         //循环会员id, 分别向每个会员发放收益
         foreach($user_mills as $k=>$user_mill){
             $user_fund = IdxUserFund::find($k);
+            $user_count = IdxUserCount::find($k);
             foreach($user_mill as $v){
                 $add_fil = $v->每日收益 * $USDT2FIL;
                 $user_fund->FIL += $add_fil;
+                $user_count->累计收益 += $add_fil;
                 LogUserFund::create_data($k, $add_fil, 'FIL', '算力收益', '算力收益');
             }
             $user_fund->save();
+            $user_count->save();
         }
 
         //单挖租赁
@@ -118,12 +122,15 @@ class Base{
         }
         foreach($user_mills as $k=>$user_mill){
             $user_fund = IdxUserFund::find($k);
+            $user_count = IdxUserCount::find($k);
             foreach($user_mill as $v){
                 $add_fil = $v->每日收益 * $USDT2FIL;
                 $user_fund->FIL += $add_fil;
+                $user_count->累计收益 += $add_fil;
                 LogUserFund::create_data($k, $add_fil, 'FIL', '算力收益', '算力收益');
             }
             $user_fund->save();
+            $user_count->save();
         }
     }
 }
