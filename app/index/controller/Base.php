@@ -43,15 +43,15 @@ class Base{
         // 保存信息
         Session::set('sms_phone', $phone);
         Session::set('sms_code', $code);
-        return return_data(1, $code, '发送成功');
+        return return_data(1, '', '发送成功');
     }
 
     public function send_sms($phone, $code=''){
         $post_data = array();
-        $post_data['userid'] = 3202;
-        $post_data['account'] = 'qx4034';
-        $post_data['password'] = '2019830';
-        $post_data['content'] = '【IPFS竞购】您的短信验证码为：' . $code;
+        $post_data['userid'] = 4485;
+        $post_data['account'] = 'qx5189';
+        $post_data['password'] = 'jx18280186061';
+        $post_data['content'] = '【炬象算力】您的短信验证码为：' . $code;
         $post_data['mobile'] = $phone;
         $post_data['sendtime'] = date("Y-m-d H:i:s", time());
         $url='http://120.25.105.164:8888/sms.aspx?action=send';
