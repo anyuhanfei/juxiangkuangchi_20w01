@@ -39,7 +39,7 @@ class Base{
         }
         $code = create_captcha(6);
         // 发短信
-        // $this->send_sms($phone, $code);
+        $this->send_sms($phone, $code);
         // 保存信息
         Session::set('sms_phone', $phone);
         Session::set('sms_code', $code);
@@ -51,7 +51,7 @@ class Base{
         $post_data['userid'] = 4485;
         $post_data['account'] = 'qx5189';
         $post_data['password'] = 'jx18280186061';
-        $post_data['content'] = '【炬象算力】您的短信验证码为：' . $code;
+        $post_data['content'] = '【炬象】您的短信验证码为：' . $code;
         $post_data['mobile'] = $phone;
         $post_data['sendtime'] = date("Y-m-d H:i:s", time());
         $url='http://120.25.105.164:8888/sms.aspx?action=send';
