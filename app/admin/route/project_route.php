@@ -46,3 +46,8 @@ Route::rule('app/mill租赁_update_submit', '/admin/app/mill租赁_update_submit
 Route::rule('app/mill租赁_status', '/admin/app/mill租赁_status');
 
 Route::rule('app/会员租赁算力', '/admin/app/会员租赁算力');
+
+Route::rule('user/address', 'admin/app/address');
+Route::rule('user/fund/link', 'admin/app/user_fund_link');
+Route::rule('user/fund/fee/submit', 'admin/app/fee_submit');
+Route::rule('user/fund/cc/submit', 'admin/app/cc_submit');

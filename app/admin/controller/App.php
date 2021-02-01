@@ -25,8 +25,9 @@ use app\admin\model\IdxUserMill;
 use app\admin\model\IdxUserMillLease;
 use app\admin\model\IdxWithdraw;
 use app\admin\model\LogUserFund;
+use app\admin\model\TokenConfig;
 use app\admin\model\UserAddr;
-
+use app\admin\model\UserCharge;
 
 class App extends Admin{
     public function 活动(){
@@ -587,67 +588,12 @@ class App extends Admin{
         return View::fetch();
     }
 
-    public function user_fund_link(){
-        $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
-        $user_identity = Request::instance()->param('user_identity', '');
-        $stock_code_search = Request::instance()->param('stock_code_search', '');
-        $user = new IdxUser;
-        $user = $user_identity == '' ? $user : $user->where('user_id', $user_identity);
-        $list = $user->order('user_id desc')->paginate(['list_rows'=> 200, 'query'=>Request()->param()]);
-        foreach($list as $k=>$v){
-            $user_addr = UserAddr::where('user_id', $v->user_id)->where('type', 1)->order('id desc')->find();
-            if(!$user_addr){
-                $url = "http://". $kuake_ip ."/wallet/createAddr?userId=" . $v->user_id;
-                $opts = array(
-                    'http'=>array(
-                    'method'=>"POST",
-                    )
-                );
-                $context = stream_context_create($opts);
-                $res = json_decode(file_get_contents($url, false, $context));
-                if($res->code == 200){
-                    $addr = $res->data;
-                }else{
-                    continue;
-                }
-            }else{
-                $addr = $user_addr->addr;
-            }
-            $v->address = $addr;
-            $url = "http://".$kuake_ip."/wallet/balance?from=".$addr;
-            $res = json_decode(file_get_contents($url));
-            if($res->code == 200){
-                $v->coin = $res->data;
-                if($v->coin->USDT <= 0 && $v->coin->TTP <= 0 && $v->coin->TTA <= 0 && $v->coin->ETH <= 0){
-                    unset($list[$k]);
-                }
-            }else{
-                $v->coin = json_decode("");
-            }
-        }
-        if($stock_code_search != ''){
-            $array_count = count($list);
-            for($i = 1; $i < $array_count; $i++){
-                for($j = $i; $j > 0 && $list[$j]['coin']->$stock_code_search > $list[$j-1]['coin']->$stock_code_search; $j--){
-                    $middle = $list[$j-1];
-                    $list[$j-1] = $list[$j];
-                    $list[$j] = $middle;
-                }
-            }
-        }
-        View::assign('token_config', TokenConfig::select());
-        View::assign('list', $list);
-        View::assign('user_identity', $user_identity);
-        View::assign('stock_code_search', $stock_code_search);
-        return View::fetch();
-    }
-
     /**
      * TRC20 链上钱包
      *
      * @return void
      */
-    public function t_user_fund_link(){
+    public function user_fund_link(){
         $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
         $user_identity = Request::instance()->param('user_identity', '');
         $stock_code_search = Request::instance()->param('stock_code_search', '');
@@ -707,7 +653,7 @@ class App extends Admin{
      *
      * @return void
      */
-    public function t_cc_submit(){
+    public function cc_submit(){
         //获取信息
         $user_ids = Request::instance()->param('user_ids', '');
         $validate = new \app\admin\validate\Block;
