@@ -5,11 +5,11 @@ import time
 
 # 数据库连接
 conn = pymysql.connect(
-    host='127.0.0.1',
+    host='47.242.55.108',
     port=3306,
-    user='root',
-    password='root',
-    db='炬象矿池_21w01',
+    user='www',
+    password='YMpApFDx2dmNs2Pa',
+    db='www',
     charset='utf8'
 )
 cursor = conn.cursor()

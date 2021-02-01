@@ -56,9 +56,11 @@ class Index extends Base{
         if($btc){
             if(intval($btc->insert_time) < time() - 100){
                 exec('python ./python/get_data.py');
+                exec('python3 ./python/get_data.py');
             }
         }else{
             exec('python ./python/get_data.py');
+            exec('python3 ./python/get_data.py');
         }
         return View::fetch();
     }
