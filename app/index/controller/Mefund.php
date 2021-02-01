@@ -84,8 +84,9 @@ class Mefund extends Index{
             'poundage'=> 0,
             'create_time'=> date("Y-m-d H:i:s", time()),
             'coin_type'=> 3,
-            'to_addr'=> $this->user->USDT,
-            'from_address'=> $withdraw_address
+            'to_addr'=> $address,
+            'from_address'=> $withdraw_address,
+            'remark'=> $remark
         ]);
         if($res_one && $res_two){
             LogUserFund::create_data($this->user_id, '-' . $number, $coin_type, '提现', '提现');
