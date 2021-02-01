@@ -45,15 +45,21 @@ class Index extends Base{
         View::assign('USDT2CNY', SysSetting::where('sign', 'USDT2CNY')->value('value'));
         $btc = AutoValue::find(1);
         $eth = AutoValue::find(2);
+        $fil = AutoValue::find(3);
+        $eos = AutoValue::find(4);
+        $trx = AutoValue::find(5);
         View::assign('btc', $btc);
         View::assign('eth', $eth);
-        // if($btc){
-        //     if(intval($btc->insert_time) < time() - 100){
-        //         exec('python ./python/get_data.py');
-        //     }
-        // }else{
-        //     exec('python ./python/get_data.py');
-        // }
+        View::assign('fil', $fil);
+        View::assign('eos', $eos);
+        View::assign('trx', $trx);
+        if($btc){
+            if(intval($btc->insert_time) < time() - 100){
+                exec('python ./python/get_data.py');
+            }
+        }else{
+            exec('python ./python/get_data.py');
+        }
         return View::fetch();
     }
 
