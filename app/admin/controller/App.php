@@ -25,6 +25,8 @@ use app\admin\model\IdxUserMill;
 use app\admin\model\IdxUserMillLease;
 use app\admin\model\IdxWithdraw;
 use app\admin\model\LogUserFund;
+use app\admin\model\UserAddr;
+
 
 class App extends Admin{
     public function 活动(){
