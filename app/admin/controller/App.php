@@ -13,6 +13,7 @@ use app\admin\model\AdmRole;
 use app\admin\model\SysModuleAction;
 
 use app\admin\controller\Admin;
+use app\admin\model\CollectLog;
 use app\admin\model\IdxActivity;
 use app\admin\model\IdxFeedback;
 use app\admin\model\IdxForgotPwd;
@@ -25,6 +26,7 @@ use app\admin\model\IdxUserMill;
 use app\admin\model\IdxUserMillLease;
 use app\admin\model\IdxWithdraw;
 use app\admin\model\LogUserFund;
+use app\admin\model\SysSetting;
 use app\admin\model\TokenConfig;
 use app\admin\model\UserAddr;
 use app\admin\model\UserCharge;
@@ -283,45 +285,6 @@ class App extends Admin{
         $obj->status = $status;
         $res = $obj->save();
         return $res ? return_data(1, '', '操作成功', '找回交易密码审核, 数据ID为:' . $id) : return_data(2, '', '操作失败');
-    }
-
-    public function 提现(){
-        $user_id = Request::instance()->param('user_id', '');
-        $user_identity = Request::instance()->param('user_identity', '');
-        $start_time = Request::instance()->param('start_time', '');
-        $end_time = Request::instance()->param('end_time', '');
-        $obj = new IdxWithdraw;
-        $obj = ($user_id != '') ? $obj->where('user_id', $user_id) : $obj;
-        $obj = ($user_identity != '') ? $obj->where('user_identity', $user_identity) : $obj;
-        $obj = $this->where_time($obj, $start_time, $end_time);
-        $list = $obj->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
-        $this->many_assign(['list'=> $list, 'user_id'=> $user_id, 'user_identity'=> $user_identity, 'start_time'=> $start_time, 'end_time'=> $end_time]);
-        return View::fetch();
-    }
-
-    public function 提现审核(){
-        $id = Request::instance()->param('id', '');
-        $status = Request::instance()->param('status', '');
-        $obj = IdxWithdraw::find($id);
-        if(!$obj){
-            return return_data(2, '', '无此申请数据');
-        }
-        if($status == 1){
-            //打款
-        }else{
-            //返钱
-            $user_fund = IdxUserFund::find($obj->user_id);
-            $coin_type = $obj->coin_type;
-            $user_fund->$coin_type += $obj->number;
-            LogUserFund::create_data($obj->user_id, $obj->number, $obj->coin_type, '提现驳回', '提现申请被驳回');
-        }
-        $obj->status = $status;
-        $res = $obj->save();
-        if($res){
-            return return_data(1, '', '操作成功', '提现申请审核, 数据ID为' . $id);
-        }else{
-            return return_data(2, '', '操作失败');
-        }
     }
 
     public function mill(){
@@ -661,7 +624,7 @@ class App extends Admin{
             return return_data(2, '', '请选择归集会员');
         }
         // 一些定义
-        $golden_address = 'TLnyfuNjjBFtcyNpzsLr2FxkE5GidgYaTk';
+        $golden_address = SysSetting::where('sign', 't_golden_address')->value('value');
         $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
         //循环会员
         $res_array = array();
