@@ -12,6 +12,7 @@ use app\admin\model\IdxUserMill;
 use app\admin\model\IdxWithdraw;
 use app\admin\model\LogUserFund;
 use app\admin\model\SysSetting;
+use app\admin\model\UserCharge;
 use think\facade\Db;
 
 class Mefund extends Index{
@@ -72,15 +73,19 @@ class Mefund extends Index{
         Db::startTrans();
         $user_fund->$coin_type -= $number;
         $res_one = $user_fund->save();
-        $res_two = IdxWithdraw::create([
+        $swift_no = 'sn' . date("YmdHis", time()) . rand(1000, 9999) . substr($this->user->phone, 7, 4);
+        $withdraw_address = SysSetting::where('sign', 't_withdraw_address')->value('value');
+        $res_two = UserCharge::create([
+            'swift_no'=> $swift_no,
             'user_id'=> $this->user_id,
-            'user_identity'=> $this->user->phone,
-            'coin_type'=> $coin_type,
-            'address'=> $address,
-            'remark'=> $remark,
-            'number'=> $number,
-            'fee'=> 0,
-            'insert_time'=> date("Y-m-d H:i:s", time())
+            'code'=> $coin_type,
+            'balance'=> $number,
+            'charge_type'=> 2,
+            'poundage'=> 0,
+            'create_time'=> date("Y-m-d H:i:s", time()),
+            'coin_type'=> 3,
+            'to_addr'=> $this->user->USDT,
+            'from_address'=> $withdraw_address
         ]);
         if($res_one && $res_two){
             LogUserFund::create_data($this->user_id, '-' . $number, $coin_type, '提现', '提现');
