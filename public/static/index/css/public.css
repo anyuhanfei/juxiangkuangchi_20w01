@@ -206,7 +206,7 @@ a:active{
 	border: 1px solid #01acec;
 	color: #01acec;
 }
-.message_reply_content p{
+.message_reply_content div{
 	height: 200px;
 	color: #000000;
 	text-indent:2em;
