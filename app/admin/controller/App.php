@@ -562,7 +562,7 @@ class App extends Admin{
         $stock_code_search = Request::instance()->param('stock_code_search', '');
         $user = new IdxUser;
         $user = $user_identity == '' ? $user : $user->where('user_id', $user_identity);
-        $list = $user->order('user_id desc')->paginate(['list_rows'=> 200, 'query'=>Request()->param()]);
+        $list = $user->order('user_id desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         foreach($list as $k=>$v){
             $user_addr = UserAddr::where('user_id', $v->user_id)->where('type', 3)->order('id desc')->find();
             if(!$user_addr){

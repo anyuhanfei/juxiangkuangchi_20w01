@@ -28,7 +28,7 @@
 						<div class="swiper-wrapper">
 							{volist name="banners" id="banner"}
 							{if condition="$banner.image != ''"}
-							<div class="swiper-slide ">
+							<div class="swiper-slide " onclick="myhref('{$banner.value}')">
 								<img src="{$banner.image}" class="img_pull">
 							</div>
 							{/if}
@@ -245,6 +245,12 @@
 				clickable: true,
 			},
 		});
+
+		function myhref(url){
+			if(url != ''){
+				location.href = url
+			}
+		}
 	</script>
 </body>
 </html>

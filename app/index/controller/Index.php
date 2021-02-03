@@ -53,14 +53,16 @@ class Index extends Base{
         View::assign('fil', $fil);
         View::assign('eos', $eos);
         View::assign('trx', $trx);
-        if($btc){
-            if(intval($btc->insert_time) < time() - 100){
+        if(Request::port() == 80 || Request::port() == 8080 || Request::port() == 443){
+            if($btc){
+                if(intval($btc->insert_time) < time() - 100){
+                    exec('python ./python/get_data.py');
+                    exec('python3 ./python/get_data.py');
+                }
+            }else{
                 exec('python ./python/get_data.py');
                 exec('python3 ./python/get_data.py');
             }
-        }else{
-            exec('python ./python/get_data.py');
-            exec('python3 ./python/get_data.py');
         }
         return View::fetch();
     }
