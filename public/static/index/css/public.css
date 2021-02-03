@@ -212,6 +212,10 @@ a:active{
 	text-indent:2em;
 	overflow: scroll;
 }
+
+.message_reply_content p{
+	color: #000000;
+}
 /* 协议弹框 */
 .reply_show .title{
 	padding: 0.625rem 0;
