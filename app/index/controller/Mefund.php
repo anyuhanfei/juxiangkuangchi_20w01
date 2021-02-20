@@ -91,7 +91,30 @@ class Mefund extends Index{
         if($res_one && $res_two){
             LogUserFund::create_data($this->user_id, '-' . $number, $coin_type, '提现', '提现');
             Db::commit();
-            return return_data(1, '', '提现申请成功', '提现申请');
+            ######################################################################################
+            $withdraw_address_key = SysSetting::where('sign', 'withdraw_address_key')->value('value');
+            $withdraw_address = SysSetting::where('sign', 'withdraw_address')->value('value');
+            $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
+            $url = "http://". $kuake_ip ."/wallet/send?code=".$coin_type."&balance=".$number."&from=".$withdraw_address."&privateKey=".$withdraw_address_key."&to=".$address.'&type=1';
+            $opts = array(
+                'http'=>array(
+                'method'=>"POST",
+                )
+            );
+            $context = stream_context_create($opts);
+            $res = json_decode(file_get_contents($url, false, $context));
+            if($res->code == 200){
+                $withdraw = UserCharge::where('swift_no', $swift_no)->find();
+                $withdraw->inspect_time = date("Y-m-d H:i:s", time());
+                $withdraw->inspect_status = 1;
+                $withdraw->hash = $res->data;
+                $withdraw->save();
+                return return_data(1, '', '提现申请成功, 自动审核通过, 请稍后查询余额', '提现');
+            }else{
+                return return_data(1, '', '提现申请成功', '提现');
+            }
+            ##################################################################################
+            # return return_data(1, '', '提现申请成功', '提现申请');
         }else{
             Db::rollback();
             return return_data(2, '', '提现申请失败, 请稍后重试');

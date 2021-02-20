@@ -20,8 +20,8 @@ use app\admin\model\SysSetting;
 
 class Mill extends Index{
     public function 单挖算力(){
-        View::assign('mills', IdxMill::select());
-        View::assign('z_mills', IdxMillLease::select());
+        View::assign('mills', IdxMill::where('status', 1)->select());
+        View::assign('z_mills', IdxMillLease::where('status', 1)->select());
         return View::fetch();
     }
 
