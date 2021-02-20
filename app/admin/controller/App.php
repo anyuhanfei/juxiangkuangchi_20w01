@@ -587,9 +587,9 @@ class App extends Admin{
             $res = json_decode(file_get_contents($url));
             if($res->code == 200){
                 $v->coin = $res->data;
-                if($v->coin <= 0){
-                    unset($list[$k]);
-                }
+                // if($v->coin <= 0){
+                //     unset($list[$k]);
+                // }
             }else{
                 $v->coin = json_decode("");
             }
