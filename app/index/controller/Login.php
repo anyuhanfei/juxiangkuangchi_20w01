@@ -110,6 +110,9 @@ class Login extends Base{
         if(!$validate->check(['phone'=> $phone, 'sms_code'=> $sms_code, 'invite_code'=> $invite_code, 'password'=> $password, 'password_confirm'=> $password_confirm])){
             return return_data(2, '', $validate->getError());
         }
+        if($invite_code == ''){
+            return return_data(2, '', '请填写邀请码');
+        }
         $top_id = $invite_code != '' ? IdxUser::where('invite_code', $invite_code)->value('user_id') : 0;
         $res = IdxUser::create_data($phone, $password, $top_id, '', '');
         Session::delete('sms_phone');

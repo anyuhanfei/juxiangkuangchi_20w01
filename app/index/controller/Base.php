@@ -5,6 +5,7 @@ use think\facade\Session;
 
 use app\admin\model\IdxUser;
 use app\admin\model\IdxUserCount;
+use app\admin\model\IdxUserFreezeFil;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserMill;
 use app\admin\model\IdxUserMillLease;
@@ -95,9 +96,15 @@ class Base{
             $user_count = IdxUserCount::find($k);
             foreach($user_mill as $v){
                 $add_fil = $v->每日收益 * $USDT2FIL;
-                $user_fund->FIL += $add_fil;
-                $user_count->累计收益 += $add_fil;
-                LogUserFund::create_data($k, $add_fil, 'FIL', '算力收益', '算力收益');
+                $user_fund->FIL += $add_fil * 0.25;
+                $user_count->累计收益 += $add_fil * 0.25;
+                LogUserFund::create_data($k, $add_fil * 0.25, 'FIL', '算力收益', '算力收益');
+                $res = IdxUserFreezeFil::create([
+                    'user_id'=> $v->user_id,
+                    '冻结总数'=> $add_fil * 0.75,
+                    '剩余金额'=> $add_fil * 0.75,
+                    'insert_time'=> date("Y-m-d H:i:s", time())
+                ]);
             }
             $user_fund->save();
             $user_count->save();
@@ -125,9 +132,37 @@ class Base{
             $user_count = IdxUserCount::find($k);
             foreach($user_mill as $v){
                 $add_fil = $v->每日收益 * $USDT2FIL;
-                $user_fund->FIL += $add_fil;
-                $user_count->累计收益 += $add_fil;
-                LogUserFund::create_data($k, $add_fil, 'FIL', '算力收益', '算力收益');
+                $user_fund->FIL += $add_fil * 0.25;
+                $user_count->累计收益 += $add_fil * 0.25;
+                LogUserFund::create_data($k, $add_fil * 0.25, 'FIL', '算力收益', '算力收益');
+                $res = IdxUserFreezeFil::create([
+                    'user_id'=> $v->user_id,
+                    '冻结总数'=> $add_fil * 0.75,
+                    '剩余金额'=> $add_fil * 0.75,
+                    'insert_time'=> date("Y-m-d H:i:s", time())
+                ]);
+            }
+            $user_fund->save();
+            $user_count->save();
+        }
+
+        # 冻结金额释放
+        $freeze_fils = IdxUserFreezeFil::where('释放周期', '<', 180)->where('剩余金额', '>', 0)->select();
+        $user_freeze_fils = [];
+        foreach($freeze_fils as $v){
+            $user_freeze_fils[$v->user_id][] = $v;
+        }
+        foreach($user_freeze_fils as $k=>$user_freeze_fil){
+            $user_fund = IdxUserFund::find($k);
+            $user_count = IdxUserCount::find($k);
+            foreach($user_freeze_fil as $v){
+                $money = $v->冻结总数 / 180;
+                $user_fund->FIL += $money;
+                $user_count->累计收益 += $money;
+                LogUserFund::create_data($k, $money, 'FIL', '冻结FIL释放', '冻结FIL释放');
+                $v->剩余金额 = $v->剩余金额 - $money > 0 ? $v->剩余金额 - $money : 0;
+                $v->释放周期 += 1;
+                $v->save();
             }
             $user_fund->save();
             $user_count->save();

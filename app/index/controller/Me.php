@@ -180,7 +180,7 @@ class Me extends Index{
         $user_data->id_card_front_img = $id_card_front_img;
         $user_data->id_card_verso_img = $id_card_verso_img;
         $res = $user_data->save();
-        return $res ? return_data(1, '', '实名认证提交成功', '实名认证申请') : return_data(2, '', '实名认证提交失败, 请稍后再试');
+        return $res ? return_data(1, '', '实名认证提交成功', '实名认证') : return_data(2, '', '实名认证提交失败, 请稍后再试');
     }
 
     public function 设置交易密码(){
