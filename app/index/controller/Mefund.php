@@ -7,6 +7,7 @@ use think\facade\Request;
 use think\facade\Env;
 
 use app\admin\model\IdxUser;
+use app\admin\model\IdxUserFreezeFil;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserMill;
 use app\admin\model\IdxWithdraw;
@@ -27,6 +28,7 @@ class Mefund extends Index{
         View::assign('zc', $总资产);
         View::assign('sy', $收益);
         View::assign('USDT2CNY', SysSetting::where('sign', 'USDT2CNY')->value('value'));
+        View::assign('freeze_fil', IdxUserFreezeFil::where('user_id', $this->user_id)->where('释放周期', '<', 180)->where('剩余金额', '>', 0)->sum('剩余金额'));
         return View::fetch();
     }
 
