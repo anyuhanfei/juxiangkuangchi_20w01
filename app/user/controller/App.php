@@ -47,6 +47,9 @@ class App extends Admin{
         }
         $list = $user->where('user_id', 'in', $this->users_id)->order('user_id desc')->paginate($this->page_number, false,['query'=>request()->param()]);
         $this->many_assign(['list'=> $list, 'nickname'=> $nickname, 'top_user_identity'=> $top_user_identity, 'search_user_identity'=> $user_identity]);
+        View::assign('USDT', IdxUserFund::where('user_id', 'in', $this->users_id)->sum('USDT'));
+        View::assign('FIL', IdxUserFund::where('user_id', 'in', $this->users_id)->sum('FIL'));
+        View::assign('recharge', UserCharge::where('charge_type', 1)->where('user_id', 'in', $this->users_id)->sum('balance'));
         return View::fetch();
     }
 
@@ -76,6 +79,7 @@ class App extends Admin{
         $list = $obj->where('user_id', 'in', $this->users_id)->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
         View::assign('mills', IdxMill::select());
+        View::assign('all', IdxUserMill::where('user_id', 'in', $this->users_id)->sum('总价'));
         return View::fetch();
     }
 
@@ -91,6 +95,7 @@ class App extends Admin{
         $list = $obj->where('user_id', 'in', $this->users_id)->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
         View::assign('mills', IdxMillLease::select());
+        View::assign('all', IdxUserMill::where('user_id', 'in', $this->users_id)->sum('总价'));
         return View::fetch();
     }
 

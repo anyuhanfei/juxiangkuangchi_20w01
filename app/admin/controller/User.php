@@ -11,7 +11,7 @@ use app\admin\model\IdxUser;
 use app\admin\model\IdxUserCount;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserData;
-
+use app\admin\model\UserCharge;
 
 class User extends Admin{
     public function __construct(){
@@ -44,6 +44,9 @@ class User extends Admin{
         }
         $list = $user->order('user_id desc')->paginate($this->page_number, false,['query'=>request()->param()]);
         $this->many_assign(['list'=> $list, 'user_id'=> $user_id, 'nickname'=> $nickname, 'top_user_id'=> $top_user_id, 'top_user_identity'=> $top_user_identity, 'search_user_identity'=> $user_identity]);
+        View::assign('USDT', IdxUserFund::sum('USDT'));
+        View::assign('FIL', IdxUserFund::sum('FIL'));
+        View::assign('recharge', UserCharge::where('charge_type', 1)->sum('balance'));
         return View::fetch();
     }
 

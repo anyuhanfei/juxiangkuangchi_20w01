@@ -49,7 +49,7 @@
 	</header>
 	<div class="mui-content mui-scroll-wrapper content_color">
 		<div class="mui-scroll">
-			{if condition="$user->is_实名 == 0 && $user.userdata.id_card_username == ''"}
+			{if condition="$user.userdata.id_card_username == ''"}
 			<!-- 认证中 -->
 			<div class="public_box authentication">
 				<div class="public_box_bg">
@@ -87,7 +87,7 @@
 			<div class="public_box ">
 				<div class="authentication_over_top">
 					<img src="/static/index/img/已认证@2x.png">
-					<h4>{if condition="$user->is_实名 == 1"}您已通过实名认证{else /}正在审核中{/if}</h4>
+					<h4>您已通过实名认证</h4>
 				</div>
 				<div class="public_box_bg">
 					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
@@ -102,7 +102,7 @@
 				<div class="public_box_bg">
 					<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
 						<div>证件审核</div>
-						<div class="blue_color">{if condition="$user->is_实名 == 1"}已通过{else /}正在审核中{/if}</div>
+						<div class="blue_color">已通过</div>
 					</div>
 				</div>
 			</div>
