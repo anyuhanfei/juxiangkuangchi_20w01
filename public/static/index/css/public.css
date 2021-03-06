@@ -213,6 +213,13 @@ a:active{
 	overflow: scroll;
 }
 
+.message_reply_content_my div{
+	/* height: 200px; */
+	color: #000000;
+	text-indent:2em;
+	overflow: scroll;
+}
+
 .message_reply_content p{
 	color: #000000;
 }
