@@ -84,16 +84,20 @@
 					{$content | raw}
 				</div>
 				<input type="text" style="opacity: 0;" value="{$link}" id="taokouling" class="mui-text-center">
+				<input type="text" style="opacity: 0;" value="{$user.invite_code}" id="taokouling2" class="mui-text-center">
 			</div>
 		</div>
 	</div>
 	<div class="fixed_bottom">
 		<div class="mui-row">
-			<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+			<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
 				<a href="{$user.invite_qrcode}" download="code" class="blue_color">保存图片</a>
 			</div>
-			<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
+			<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
 				<div class=""><a href="javascript:;" id="copyCode" class="copy_btn blue_color" data-clipboard-target="#taokouling" data-clipboard-action="copy">分享链接</a></div>
+			</div>
+			<div class="mui-col-sm-4 mui-col-xs-4 mui-text-center">
+				<div class=""><a href="javascript:;" id="copyCode2" class="copy_btn2 blue_color" data-clipboard-target="#taokouling2" data-clipboard-action="copy">复制邀请码</a></div>
 			</div>
 		</div>
 	</div>
@@ -111,6 +115,15 @@
 				mui.toast('复制失败，请长按复制');
 		    });
 		
+		var clipboard = new Clipboard('.copy_btn2');
+		clipboard.on('success', function(e){
+			console.log(e);
+			mui.toast('复制成功');
+			document.getElementById('taokouling2').blur();
+		});
+		clipboard.on('error', function(e){
+			mui.toast('复制失败，请长按复制');
+		});
 	</script>
 </body>
 </html>

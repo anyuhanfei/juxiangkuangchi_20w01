@@ -471,8 +471,9 @@ class App extends Admin{
         $日产出展示 = Request::instance()->param('日产出展示', '');
         $日产出计算 = Request::instance()->param('日产出计算', '');
         $分币比例 = Request::instance()->param('分币比例', '');
+        $算力奖励 = Request::instance()->param('算力奖励', '');
         $剩余算力 = Request::instance()->param('剩余算力', '');
-        if($名称 == '' && $单份存力 == '' && $单份价格 == '' && $合约周期 == '' && $开挖时间 == '' && $日产出展示 == '' && $日产出计算 == '' && $剩余算力 == ''){
+        if($名称 == '' && $单份存力 == '' && $单份价格 == '' && $合约周期 == '' && $开挖时间 == '' && $日产出展示 == '' && $日产出计算 == '' && $剩余算力 == '' && $算力奖励 == ''){
             return return_data(2, '', '有必填信息未填写');
         }
         $mill = IdxMillLease::find($id);
@@ -487,9 +488,12 @@ class App extends Admin{
         $mill->日产出展示 = $日产出展示;
         $mill->日产出计算 = $日产出计算;
         $mill->分币比例 = $分币比例;
+        $mill->算力奖励 = $算力奖励;
         $mill->剩余算力 = $剩余算力;
         $res = $mill->save();
         if($res){
+            //修改所有持有算力
+            IdxUserMillLease::update(['每日收益'=> $mill->日产出计算 * (1 + ($mill->算力奖励 * 0.01))], ['mill_id'=> $id]);
             return return_data(1, '', '算力修改成功', '修改算力信息, 算力id为:' . $id);
         }else{
             return return_data(2, '', '算力修改失败');
@@ -529,7 +533,7 @@ class App extends Admin{
         $list = $obj->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         $this->many_assign(['list'=> $list, 'user_id'=> $user_id, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
         View::assign('mills', IdxMillLease::select());
-        View::assign('all', IdxUserMill::sum('总价'));
+        View::assign('all', IdxUserMillLease::sum('总价'));
         return View::fetch();
     }
 

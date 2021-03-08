@@ -64,6 +64,10 @@ if fil_usdt_select_sql_res:
     fil_usdt_update_res = cursor.execute(fil_usdt_update_sql)
     if fil_usdt_update_res == 1:
         conn.commit()
+    fil_update_sql = "update sys_setting set value='%s' where sign='USDT2FIL'" % (fil_usdt[1])
+    fil_update_res = cursor.execute(fil_update_sql)
+    if fil_update_res == 1:
+        conn.commit()
 
 eos_usdt_select_sql = "select * from auto_value where coin='EOS'"
 cursor.execute(eos_usdt_select_sql)

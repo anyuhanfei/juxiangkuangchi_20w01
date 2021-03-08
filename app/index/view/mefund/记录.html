@@ -30,55 +30,27 @@
 <body>
 	<header class="mui-bar mui-bar-nav head_bg">
 		<a href="javascript:;" class="mui-icon mui-icon-left-nav mui-pull-left writer_color mui-action-back"></a>
-		<h1 class="mui-title">算力产出</h1>
-		<a href="/index/me/记录" class="mui-icon mui-icon-right-nav mui-pull-right writer_color" style="padding-top:5px; font-size:15px;">资金流水</a>
+		<h1 class="mui-title">流水记录</h1>
 	</header>
 	<div class="mui-content mui-scroll-wrapper content_color">
 		<div class="mui-scroll">
-			<div class="getRecordTit mui-segmented-control">
-				<a href="#get1" class="mui-control-item mui-active">单挖收益</a>
-				<a href="#get2" class="mui-control-item">双挖收益</a>
-			</div>
 			<div class="getRecordList mui-content-padded">
 				<div id="get1" class="mui-control-content mui-active">
-					{volist name="mymills" id="vo"}
+					{volist name="list" id="vo"}
 					<div class="public_box_bg">
-						<div class="flexbox_nowrap flexbox_nowrap_between border_bot">
-							<div class="flexbox_nowrap">
-								<img src="/static/index/img/-s-图层5@2x.png" class="notice_img">
-								<div class="blue_color">{$vo->mill->名称}</div>
-							</div>
-							<div class="gray_color">{$vo->insert_time}</div>
-						</div>
 						<div class="flexbox_nowrap flexbox_nowrap_between">
-							<p>总算力</p>
-							<p class="blue_color">{$vo->总算力}T</p>
-						</div>
-						<div class="flexbox_nowrap flexbox_nowrap_between">
-							<p>总产出</p>
-							<p class="blue_color">{$vo->mill->全周期收益} USDT</p>
-						</div>
-						<div class="flexbox_nowrap flexbox_nowrap_between">
-							<div>估值</div>
-							<div class="blue_color">{$vo->mill->全周期收益 * $USDT2FIL} FIL</div>
+							<p>{$vo.content}</p>
+							<p class="blue_color"><?php echo round($vo->number, 6);?> {$vo->coin_type}</p>
 						</div>
 					</div>
 					{/volist}
 				</div>
-				<div id="get2" class="mui-control-content">
-					<div class="get_center">
-						<img src="/static/index/img/暂无记录@2x.png" class="img_pull">
-						<div class="mui-text-center gray_color">暂无记录...</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
-	
 	<script src="/static/index/js/jquery.min.js"></script>
 	<script src="/static/index/js/public.js"></script>
 	<script type="text/javascript">
-		
 	</script>
 </body>
 </html>

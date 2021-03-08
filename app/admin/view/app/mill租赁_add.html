@@ -49,6 +49,11 @@
                             <small id="emailHelp" class="form-text text-muted text-danger">单位%</small>
                         </div>
                         <div class="form-group">
+                            <label for="算力奖励">算力奖励*</label>
+                            <input type="number" class="form-control" id="算力奖励">
+                            <small id="emailHelp" class="form-text text-muted text-danger">单位%, 请与单份存力中的保持一致</small>
+                        </div>
+                        <div class="form-group">
                             <label for="开挖时间">开挖时间*</label>
                             <input type="text" class="form-control" id="开挖时间">
                             <small id="emailHelp" class="form-text text-muted text-danger">格式为: 0000-00-00 00:00:00</small>
@@ -88,6 +93,7 @@ $("#submit").click(function(){
     fd.append('日产出展示', $("#日产出展示").val());
     fd.append('日产出计算', $("#日产出计算").val());
     fd.append('分币比例', $("#分币比例").val());
+    fd.append('算力奖励', $("#算力奖励").val());
     fd.append('剩余算力', $("#剩余算力").val());
     $.ajax({
         url: "/admin/app/mill租赁_add_submit",
