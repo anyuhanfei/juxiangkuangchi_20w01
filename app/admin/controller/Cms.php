@@ -305,10 +305,6 @@ class Cms extends Admin{
         $article = ($tag_id != '') ? $article->where('tag_ids', 'like', '%,' . $tag_id . ',%') : $article;
         $article = ($author != '') ? $article->where('author', 'like', '%' . $author . '%') : $article;
         $list = $article->order('article_id desc')->paginate($this->page_number, false,['query'=>request()->param()]);
-        foreach($list as &$l){
-            $l['tag_ids'] = CmsTag::where('tag_id', 'in', $l['tag_ids'])->column('tag_name');
-            $l['tag_ids'] = implode(',', $l['tag_ids']);
-        }
         //删除未被上传的图片
         $article_images = Session::get('article_content_images');
         if($article_images){
