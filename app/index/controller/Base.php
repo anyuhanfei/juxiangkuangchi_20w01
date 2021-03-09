@@ -126,6 +126,12 @@ class Base{
             $v->总产出 += $v->每日收益;
             $v->operation_time = date("Y-m-d", time());
             $v->save();
+            if($v->剩余周期 <= 0){
+                $user_fund = IdxUserFund::find($v->user_id);
+                $user_fund->USDT += $v->总价;
+                $user_fund->save();
+                LogUserFund::create_data($v->user_id, $v->总价, 'USDT', '租赁算力返还', '租赁算力返还');
+            }
         }
         foreach($user_mills as $k=>$user_mill){
             $user_fund = IdxUserFund::find($k);
