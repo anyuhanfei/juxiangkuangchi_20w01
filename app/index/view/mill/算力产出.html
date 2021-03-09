@@ -45,7 +45,7 @@
 						<div class="mui-row" style="margin-top: 0.25rem; padding: 2.25rem 0 10%; background-color: rgba(0,0,0,0.2);">
 							<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
 								<div>累计产出</div>
-								<div class="blue_color" style="padding-top: 17px;"><?php echo ceil($fil); ?></div>
+								<div class="blue_color" style="padding-top: 17px;"><?php echo ceil($fil * 10000) / 10000; ?></div>
 							</div>
 							<div class="mui-col-sm-6 mui-col-xs-6 mui-text-center">
 								<div>冻结FIL</div>
@@ -57,7 +57,7 @@
 					<div class="public_box_bg">
 						<div class="flexbox_nowrap flexbox_nowrap_between">
 							<p>{$vo.content}</p>
-							<p class="blue_color"><?php echo ceil($vo->number, 4);?> {$vo->coin_type}</p>
+							<p class="blue_color"><?php echo ceil($vo->number * 10000) / 10000;?> {$vo->coin_type}</p>
 						</div>
 						<div class="flexbox_nowrap flexbox_nowrap_between">
 							<p>{$vo.fund_type}</p>
