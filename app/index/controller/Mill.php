@@ -150,8 +150,8 @@ class Mill extends Index{
     }
 
     public function 我的算力(){
-        $mymills = IdxUserMill::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->order('id desc')->select();
-        $myzmills = IdxUserMillLease::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->order('id desc')->select();
+        $mymills = IdxUserMill::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->order('mill_id desc')->select();
+        $myzmills = IdxUserMillLease::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->order('mill_id desc')->select();
         $有效算龄 = 0;
         foreach($mymills as $v){
             $有效算龄 += $v->mill->单份存力 * $v->number;

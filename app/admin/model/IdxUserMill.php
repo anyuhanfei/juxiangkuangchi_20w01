@@ -6,7 +6,7 @@ use think\Model;
 
 class IdxUserMill extends Model{
     protected $table = "idx_user_mill";
-    protected $pk = "id";
+    protected $pk = "mill_id";
 
     public function user(){
         return $this->hasOne('idx_user', 'user_id', 'user_id');
