@@ -131,7 +131,7 @@ class Base{
             $user_fund = IdxUserFund::find($k);
             $user_count = IdxUserCount::find($k);
             foreach($user_mill as $v){
-                $add_fil = $v->每日收益 * $USDT2FIL;
+                $add_fil = $v->每日收益 * $v->算力奖励 * 0.01 * $USDT2FIL;
                 $user_fund->FIL += $add_fil * 0.25;
                 $user_count->累计收益 += $add_fil * 0.25;
                 LogUserFund::create_data($k, $add_fil * 0.25, 'FIL', '算力收益', '算力收益');

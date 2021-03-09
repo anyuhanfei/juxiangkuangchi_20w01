@@ -10,6 +10,7 @@ use app\admin\model\IdxUser;
 use app\admin\model\IdxMill;
 use app\admin\model\IdxMillLease;
 use app\admin\model\IdxUserCount;
+use app\admin\model\IdxUserFreezeFil;
 use app\admin\model\IdxUserFund;
 use app\admin\model\IdxUserMill;
 use app\admin\model\IdxUserMillLease;
@@ -131,7 +132,8 @@ class Mill extends Index{
             '剩余周期'=> $mill->合约周期,
             'insert_time'=> $mill->开挖时间,
             'operation_time'=> date("Y-m-d", time()),
-            '每日收益'=> $mill->日产出计算 * $number
+            '每日收益'=> $mill->日产出计算 * $number,
+            '算力奖励'=> $mill->分币比例
         ]);
         if($res){
             LogUserFund::create_data($this->user_id, $all_price, 'USDT', '租赁单挖算力', '购买' . $mill->名称 . $number . '份');
@@ -144,8 +146,11 @@ class Mill extends Index{
     }
 
     public function 算力产出(){
-        View::assign('mymills', IdxUserMill::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->order('id desc')->select());
-        View::assign('USDT2FIL', SysSetting::where('sign', 'USDT2FIL')->value('value'));
+        // View::assign('mymills', IdxUserMill::where('user_id', $this->user_id)->where('剩余周期', '>', 0)->order('id desc')->select());
+        // View::assign('USDT2FIL', SysSetting::where('sign', 'USDT2FIL')->value('value'));
+        View::assign('list', LogUserFund::where('user_id', $this->user_id)->where('coin_type', 'FIL')->order('id desc')->select());
+        View::assign('freeze_fil', IdxUserFreezeFil::where('user_id', $this->user_id)->where('释放周期', '<', 180)->where('剩余金额', '>', 0)->sum('剩余金额'));
+        View::assign('fil', LogUserFund::where('user_id', $this->user_id)->where('coin_type', 'FIL')->where('fund_type', 'in', array('冻结FIL释放', '算力收益'))->sum('number'));
         return View::fetch();
     }
 

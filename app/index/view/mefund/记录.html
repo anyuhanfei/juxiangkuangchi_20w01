@@ -42,6 +42,10 @@
 							<p>{$vo.content}</p>
 							<p class="blue_color"><?php echo round($vo->number, 6);?> {$vo->coin_type}</p>
 						</div>
+						<div class="flexbox_nowrap flexbox_nowrap_between">
+							<p>{$vo.fund_type}</p>
+							<p class="blue_color">{$vo.insert_time}</p>
+						</div>
 					</div>
 					{/volist}
 				</div>

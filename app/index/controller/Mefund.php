@@ -39,7 +39,7 @@ class Mefund extends Index{
     }
 
     public function 记录(){
-        View::assign('list', LogUserFund::where('user_id', $this->user_id)->order('id desc')->select());
+        View::assign('list', LogUserFund::where('user_id', $this->user_id)->where('coin_type', 'USDT')->order('id desc')->select());
         return View::fetch();
     }
 
