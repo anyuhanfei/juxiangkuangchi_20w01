@@ -44,7 +44,6 @@ class Mefund extends Index{
     }
 
     public function 充值(){
-        return redirect('/');
         if($this->user->address == ''){
             $kuake_ip = Env::get('ANER_ADMIN.KUAKE_IP');
             $url = "http://". $kuake_ip ."/tron/createAddress?userId=" . $this->user_id;
