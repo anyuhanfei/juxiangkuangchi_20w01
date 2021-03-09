@@ -56,7 +56,7 @@ class Mill extends Index{
     public function 租赁矿机支付(){
         $id = Request::instance()->param('id', '');
         View::assign('mill', IdxMillLease::find($id));
-        View::assign('xy', SysAd::where('sign', 'IPFS云算力服务销售及托管协议')->value('content'));
+        View::assign('xy', SysAd::where('sign', '云算力产品销售协议')->value('content'));
         return View::fetch();
     }
 

@@ -95,7 +95,7 @@ class App extends Admin{
         $list = $obj->where('user_id', 'in', $this->users_id)->order('insert_time desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'mill_id'=> $mill_id, 'start_time'=> $start_time, 'end_time'=> $end_time]);
         View::assign('mills', IdxMillLease::select());
-        View::assign('all', IdxUserMill::where('user_id', 'in', $this->users_id)->sum('总价'));
+        View::assign('all', IdxUserMillLease::where('user_id', 'in', $this->users_id)->sum('总价'));
         return View::fetch();
     }
 

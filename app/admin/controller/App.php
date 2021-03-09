@@ -736,7 +736,7 @@ class App extends Admin{
         $log = new UserCharge;
         $log = ($user_identity != '') ? $log->where('user_id', $user_identity) : $log;
         $log = ($stock_code != '') ? $log->where('code', $stock_code) : $log;
-        $log = $this->where_time($log, $start_time, $end_time);
+        $log = $this->where_time($log, $start_time, $end_time, 'create_time');
         $list = $log->where('charge_type', 2)->where('is_deleted', 0)->order('inspect_status asc')->order('id desc')->paginate(['list_rows'=> $this->page_number, 'query'=>Request()->param()]);
         $this->many_assign(['list'=> $list, 'user_identity'=> $user_identity, 'stock_code'=> $stock_code, 'start_time'=> $start_time, 'end_time'=> $end_time]);
         $stock_codes = TokenConfig::select();

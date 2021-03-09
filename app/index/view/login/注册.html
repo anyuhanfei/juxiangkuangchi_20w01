@@ -69,6 +69,13 @@
 					</div>
 					<span class="read_box flexbox_nowrap gray_color">我已阅读并同意<a href="javascript:;" class="blue_color deal reply">《炬象矿池平台服务协议》</a></span>
 				</div>
+				<div class="flexbox_nowrap read_box_flex flexbox_nowrap_start">
+					<div class="radio_box checkbox">
+						<input type="radio" value="yes" name="agree2">
+						<label id="one2"></label>
+					</div>
+					<span class="read_box flexbox_nowrap gray_color">我已阅读并同意<a href="javascript:;" class="blue_color deal reply2">《用户隐私保护协议》</a></span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -82,6 +89,20 @@
 			</div>
 			<div class="">
 				<a href="javascript:;" class="a_big_btn a_btn reply_btn">确定</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="mui-backdrop reply_show2">
+		<div class="message_reply">
+			<div class="title mui-text-center black_color">用户隐私保护协议</div>
+			<div class="message_reply_content">
+				<div>
+					{$detail2 | raw}
+				</div>
+			</div>
+			<div class="">
+				<a href="javascript:;" class="a_big_btn a_btn reply_btn2">确定</a>
 			</div>
 		</div>
 	</div>
@@ -106,6 +127,14 @@
 		$('.reply_btn').click(function () {
 			$('.reply_show').hide();
 		})
+
+		$('.reply2').click(function () {
+			$('.reply_show2').show();
+		})
+		$('.reply_btn2').click(function () {
+			$('.reply_show2').hide();
+		})
+		$('.reply_show2').hide();
 		// mui.toast('手机号码有误，请重新输入')验证码发送时
 		// mui.toast('验证码已发送')验证码发送时
 		// mui.toast('无效邀请码，请重新确认')邀请码输入错误时
@@ -150,6 +179,10 @@
 		$(".submit_btn").click(function(){
 			if($('input[name="agree"]:checked').val() != 'yes'){
 				layer.msg('请同意《炬象矿池平台服务协议》')
+				return
+			}
+			if($('input[name="agree2"]:checked').val() != 'yes'){
+				layer.msg('请同意《用户隐私保护协议》')
 				return
 			}
 			var phone = $("#phone").val()

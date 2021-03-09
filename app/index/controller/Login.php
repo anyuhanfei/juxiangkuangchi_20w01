@@ -13,6 +13,7 @@ use app\admin\model\SysAd;
 class Login extends Base{
     public function __construct(){
         View::assign('detail', SysAd::where('sign', '注册协议')->value('content'));
+        View::assign('detail2', SysAd::where('sign', '用户隐私保护协议')->value('content'));
     }
 
     public function login(){
